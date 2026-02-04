@@ -19,7 +19,7 @@ namespace Constants {
     constexpr int MAP_HEIGHT = 12;
     constexpr float TILE_SIZE = 144.0f;
 
-    constexpr float FOG_DISTANCE = 7.5f;
+    constexpr float FOG_DISTANCE = 5.5f;
     constexpr std::uint8_t FOG_R = 150;
     constexpr std::uint8_t FOG_G = 150;
     constexpr std::uint8_t FOG_B = 150;
