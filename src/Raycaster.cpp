@@ -11,6 +11,8 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
 
     for (int ray = 0; ray < Constants::WINDOW_WIDTH; ++ray) {
 
+        // Position of where we are in camera space
+
         float cameraX = 2 * ray / (float)Constants::WINDOW_WIDTH - 1;
 
         // Ray direction
@@ -38,6 +40,8 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
 
         bool hit = false;
         int side;
+
+        // Calculate step and initial sideDist
 
         if (rayDirX < 0) {
             stepX = -1;
@@ -71,6 +75,8 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
 
             if (map.getTile(mapX, mapY) > 0) hit = true;
         }
+
+        // Calculate distance projected on camera direction
 
         if (side == 0)
             perpWallDist = (sideDistX - deltaDistX);

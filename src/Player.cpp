@@ -41,10 +41,17 @@ void Player::update(const Map& map, float dt) {
 
 void Player::CheckCollision(const Map& map, sf::Vector2f newPosition) {
     int tileX = (int)(newPosition.x) / map.getTileSize();
-    int tileY = (int)(newPosition.y) / map.getTileSize();
+    int tileY = (int)(position.y) / map.getTileSize();
 
     if (map.getTile(tileX, tileY) == 0) { // 0 = empty space
-        position = newPosition;
+        position.x = newPosition.x;
+    }
+
+    tileX = (int)(position.x) / map.getTileSize();
+    tileY = (int)(newPosition.y) / map.getTileSize();
+
+    if (map.getTile(tileX, tileY) == 0) { // 0 = empty space
+        position.y = newPosition.y;
     }
 }
 
