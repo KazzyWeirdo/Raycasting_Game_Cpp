@@ -10,7 +10,8 @@
 
 enum class GameState {
     MENU,
-    GAME
+    GAME,
+    CREATOR
 };
 
 int main() {
@@ -27,26 +28,6 @@ int main() {
     Player player;
     Raycaster raycaster;
     sf::Clock clock;
-
-        /* Test level saving and loading
-    
-    LevelData testLevel;
-    testLevel.width = 10;
-    testLevel.height = 10;
-    testLevel.tiles = std::vector<int>(100, 0); 
-    testLevel.tiles[55] = 1;
-    testLevel.skyR = 100; testLevel.skyG = 100; testLevel.skyB = 100;
-    testLevel.floorR = 0; testLevel.floorG = 0; testLevel.floorB = 50;
-    testLevel.wallR = 200; testLevel.wallG = 0; testLevel.wallB = 0;
-    testLevel.fogIntensity = 10.5f;
-
-    MapManager::ensureAssetsDirectory();
-    MapManager::saveMap("prueba.map", testLevel);
-    std::cout << "Mapa guardado en assets/prueba.map" << std::endl;
-    LevelData loadedLevel = MapManager::loadMap("prueba");
-    worldMap.loadLevel(loadedLevel);
-    
-    */
 
     // Program State
     GameState gameStateCurrent = GameState::MENU;
@@ -72,72 +53,80 @@ int main() {
                 window.close();
             }
 
-            if (gameStateCurrent == GameState::MENU) {
-                for (auto& button : mapButtons) {
-                    button.update(sf::Mouse::getPosition(window));
-                    if (button.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
-                        std::cout << "Loading map: " << button.getText() << std::endl;
-                        LevelData levelData = MapManager::loadMap(button.getText());
-                        if (levelData.width > 0) {
-                            worldMap.loadLevel(levelData);
-                            player = Player();
-                            gameStateCurrent = GameState::GAME;
-                        }
-                        else {
-                            std::cerr << "Failed to load map: " << button.getText() << std::endl;
+            switch(gameStateCurrent) {
+                case GameState::MENU:
+                    for (auto& button : mapButtons) {
+                        button.update(sf::Mouse::getPosition(window));
+                        if (button.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
+                            std::cout << "Loading map: " << button.getText() << std::endl;
+                            LevelData levelData = MapManager::loadMap(button.getText());
+                            if (levelData.width > 0) {
+                                worldMap.loadLevel(levelData);
+                                player = Player();
+                                gameStateCurrent = GameState::GAME;
+                            }
+                            else {
+                                std::cerr << "Failed to load map: " << button.getText() << std::endl;
+                            }
                         }
                     }
-                }
-                exitButton.update(sf::Mouse::getPosition(window));
-                if (exitButton.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
-                    window.close();
-                }
-            }
-
-            else if (gameStateCurrent == GameState::GAME) {
-                if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-                    if (keyPressed->code == sf::Keyboard::Key::Escape) {
-                        gameStateCurrent = GameState::MENU;
+                    exitButton.update(sf::Mouse::getPosition(window));
+                    if (exitButton.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
+                        window.close();
                     }
-                }
+                    break;
+                case GameState::GAME:
+                    if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                        if (keyPressed->code == sf::Keyboard::Key::Escape) {
+                            gameStateCurrent = GameState::MENU;
+                        }
+                    }
+                    break;
+                case GameState::CREATOR:
+                    break;
             }
 
         }
 
         window.clear(worldMap.getSkyColor());
+        
+        switch(gameStateCurrent) {
+            case GameState::MENU:
+                for (auto& button : mapButtons) {
+                    button.update((sf::Mouse::getPosition(window)));
+                    button.draw(window);
+                }
+                exitButton.update((sf::Mouse::getPosition(window)));
+                exitButton.draw(window);
+                break;
+            case GameState::GAME: {
+                player.update(worldMap, dt);
+                sf::VertexArray sky(sf::PrimitiveType::TriangleStrip, 4);
+                sky[0] = sf::Vertex{{0.0f, 0.0f}, worldMap.getSkyColor()};
+                sky[1] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, 0.0f}, worldMap.getSkyColor()};
+                sky[2] = sf::Vertex{{0.0f, (float)Constants::WINDOW_HEIGHT / 2}, worldMap.getSkyColor()};
+                sky[3] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, (float)Constants::WINDOW_HEIGHT / 2}, worldMap.getSkyColor()};
+                window.draw(sky);
 
-        if (gameStateCurrent == GameState::MENU) {
-            for (auto& button : mapButtons) {
-                button.update((sf::Mouse::getPosition(window)));
-                button.draw(window);
+                sf::VertexArray floor(sf::PrimitiveType::TriangleStrip, 4);
+                floor[0] = sf::Vertex{{0.0f, (float)Constants::WINDOW_HEIGHT / 2}, worldMap.getSkyColor()};
+                floor[1] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, (float)Constants::WINDOW_HEIGHT / 2}, worldMap.getSkyColor()};
+                floor[2] = sf::Vertex{{0.0f, (float)Constants::WINDOW_HEIGHT}, worldMap.getFloorColor()};
+                floor[3] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, (float)Constants::WINDOW_HEIGHT}, worldMap.getFloorColor()};
+                window.draw(floor);
+
+                raycaster.draw(window, worldMap, player);
+
+                /* For debugging: draw 2D map and player
+                
+                worldMap.draw(window);
+                player.draw(window);
+                
+                */
+                break;
             }
-            exitButton.update((sf::Mouse::getPosition(window)));
-            exitButton.draw(window);
-        }
-        else if (gameStateCurrent == GameState::GAME) {
-        player.update(worldMap, dt);
-        sf::VertexArray sky(sf::PrimitiveType::TriangleStrip, 4);
-        sky[0] = sf::Vertex{{0.0f, 0.0f}, worldMap.getSkyColor()};
-        sky[1] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, 0.0f}, worldMap.getSkyColor()};
-        sky[2] = sf::Vertex{{0.0f, (float)Constants::WINDOW_HEIGHT / 2}, worldMap.getSkyColor()};
-        sky[3] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, (float)Constants::WINDOW_HEIGHT / 2}, worldMap.getSkyColor()};
-        window.draw(sky);
-
-        sf::VertexArray floor(sf::PrimitiveType::TriangleStrip, 4);
-        floor[0] = sf::Vertex{{0.0f, (float)Constants::WINDOW_HEIGHT / 2}, worldMap.getSkyColor()};
-        floor[1] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, (float)Constants::WINDOW_HEIGHT / 2}, worldMap.getSkyColor()};
-        floor[2] = sf::Vertex{{0.0f, (float)Constants::WINDOW_HEIGHT}, worldMap.getFloorColor()};
-        floor[3] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, (float)Constants::WINDOW_HEIGHT}, worldMap.getFloorColor()};
-        window.draw(floor);
-
-        raycaster.draw(window, worldMap, player);
-
-        /* For debugging: draw 2D map and player
-        
-        worldMap.draw(window);
-        player.draw(window);
-        
-        */
+            case GameState::CREATOR:
+                break;
         }
 
         window.display();
