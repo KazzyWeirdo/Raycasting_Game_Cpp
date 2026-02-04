@@ -21,8 +21,6 @@ Map::Map() {
         tiles[y * mapWidth] = 1; // Left wall
         tiles[y * mapWidth + (mapWidth - 1)] = 1; // Right wall
     }
-
-    setTile(3, 3, 1);
 }
 
 void Map::loadLevel(const LevelData& levelData)

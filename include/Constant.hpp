@@ -17,7 +17,7 @@ namespace Constants {
     // --- Map Basic Configuration ---
     constexpr int MAP_WIDTH = 12;
     constexpr int MAP_HEIGHT = 12;
-    constexpr float TILE_SIZE = 144.0f;
+    constexpr float TILE_SIZE = 64.0f;
 
     constexpr float FOG_DISTANCE = 5.5f;
     constexpr std::uint8_t FOG_R = 150;

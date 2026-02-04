@@ -43,6 +43,7 @@ int main() {
     }
 
     Button exitButton(200.0f, startY, 400.0f, 50.0f, "Exit", font);
+    Button creatorButton(200.0f, startY + 60.0f, 400.0f, 50.0f, "Map Creator", font);
 
     while (window.isOpen()) {
 
@@ -58,7 +59,6 @@ int main() {
                     for (auto& button : mapButtons) {
                         button.update(sf::Mouse::getPosition(window));
                         if (button.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
-                            std::cout << "Loading map: " << button.getText() << std::endl;
                             LevelData levelData = MapManager::loadMap(button.getText());
                             if (levelData.width > 0) {
                                 worldMap.loadLevel(levelData);
@@ -74,6 +74,10 @@ int main() {
                     if (exitButton.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
                         window.close();
                     }
+                    creatorButton.update(sf::Mouse::getPosition(window));
+                    if (creatorButton.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
+                        gameStateCurrent = GameState::CREATOR;
+                    }
                     break;
                 case GameState::GAME:
                     if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
@@ -83,6 +87,34 @@ int main() {
                     }
                     break;
                 case GameState::CREATOR:
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+                            gameStateCurrent = GameState::MENU;
+                            sf::sleep(sf::milliseconds(200)); // Prevent immediate re-entry
+                    }
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+                        LevelData dataToSave = worldMap.getLevelData();
+
+                        if (MapManager::saveMap("custom_map.map", dataToSave)) {
+                            std::cout << "Map saved as 'custom_map.map'" << std::endl;
+                        }
+                        sf::sleep(sf::milliseconds(200)); // Prevent multiple saves
+                    }
+
+                    if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+                        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                        int mapX = (int)(mousePos.x / Constants::TILE_SIZE);
+                        int mapY = (int)(mousePos.y / Constants::TILE_SIZE);
+
+                        if(mapX >= 0 && mapX < worldMap.getWidth() && 
+                        mapY >= 0 && mapY < worldMap.getHeight()) {
+                            int tileValue = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) ? 0 : 1;
+
+                            if(worldMap.getTile(mapX, mapY) != tileValue) {
+                                worldMap.setTile(mapX, mapY, tileValue);
+                            }
+                        }
+                    }
                     break;
             }
 
@@ -98,6 +130,8 @@ int main() {
                 }
                 exitButton.update((sf::Mouse::getPosition(window)));
                 exitButton.draw(window);
+                creatorButton.update((sf::Mouse::getPosition(window)));
+                creatorButton.draw(window);
                 break;
             case GameState::GAME: {
                 player.update(worldMap, dt);
@@ -118,14 +152,16 @@ int main() {
                 raycaster.draw(window, worldMap, player);
 
                 /* For debugging: draw 2D map and player
-                
-                worldMap.draw(window);
                 player.draw(window);
                 
                 */
                 break;
             }
             case GameState::CREATOR:
+                worldMap.draw(window);
+
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                
                 break;
         }
 

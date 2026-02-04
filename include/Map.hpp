@@ -32,6 +32,23 @@ public:
     sf::Color getFloorColor() const { return floorColor; }
     sf::Color getWallColor() const { return wallColor; }
     float getFogIntensity() const { return fogIntensity; }
+    LevelData getLevelData() const {
+        LevelData data;
+        data.width = mapWidth;
+        data.height = mapHeight;
+        data.tiles = tiles;
+        data.skyR = skyColor.r;
+        data.skyG = skyColor.g;
+        data.skyB = skyColor.b;
+        data.floorR = floorColor.r;
+        data.floorG = floorColor.g;
+        data.floorB = floorColor.b;
+        data.wallR = wallColor.r;
+        data.wallG = wallColor.g;
+        data.wallB = wallColor.b;
+        data.fogIntensity = fogIntensity;
+        return data;
+    }
 private:
     int mapWidth;
     int mapHeight;
