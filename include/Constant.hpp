@@ -18,10 +18,15 @@ namespace Constants {
     constexpr int MAP_WIDTH = 12;
     constexpr int MAP_HEIGHT = 12;
     constexpr float TILE_SIZE = 144.0f;
+
     constexpr float FOG_DISTANCE = 7.5f;
-    constexpr std::uint8_t FOG_R = 0;
-    constexpr std::uint8_t FOG_G = 0;
-    constexpr std::uint8_t FOG_B = 0;
+    constexpr std::uint8_t FOG_R = 150;
+    constexpr std::uint8_t FOG_G = 150;
+    constexpr std::uint8_t FOG_B = 150;
+
+    constexpr std::uint8_t FLOOR_R = 20;
+    constexpr std::uint8_t FLOOR_G = 50;
+    constexpr std::uint8_t FLOOR_B = 20;
 
     // --- Player Configuration  ---
     constexpr float PLAYER_SPEED = 5.0f;

@@ -31,7 +31,22 @@ int main() {
         }
 
         player.update(worldMap, dt);
-        window.clear(sf::Color(Constants::FOG_R, Constants::FOG_G, Constants::FOG_B));
+        window.clear(sf::Color::Black);
+
+        sf::VertexArray sky(sf::PrimitiveType::TriangleStrip, 4);
+        sky[0] = sf::Vertex{{0.0f, 0.0f}, sf::Color(Constants::FOG_R, Constants::FOG_G, Constants::FOG_B)};
+        sky[1] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, 0.0f}, sf::Color(Constants::FOG_R, Constants::FOG_G, Constants::FOG_B)};
+        sky[2] = sf::Vertex{{0.0f, (float)Constants::WINDOW_HEIGHT / 2}, sf::Color(Constants::FOG_R, Constants::FOG_G, Constants::FOG_B)};
+        sky[3] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, (float)Constants::WINDOW_HEIGHT / 2}, sf::Color(Constants::FOG_R, Constants::FOG_G, Constants::FOG_B)};
+        window.draw(sky);
+
+        sf::VertexArray floor(sf::PrimitiveType::TriangleStrip, 4);
+        floor[0] = sf::Vertex{{0.0f, (float)Constants::WINDOW_HEIGHT / 2}, sf::Color(Constants::FOG_R, Constants::FOG_G, Constants::FOG_B)};
+        floor[1] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, (float)Constants::WINDOW_HEIGHT / 2}, sf::Color(Constants::FOG_R, Constants::FOG_G, Constants::FOG_B)};
+        floor[2] = sf::Vertex{{0.0f, (float)Constants::WINDOW_HEIGHT}, sf::Color(Constants::FLOOR_R, Constants::FLOOR_G, Constants::FLOOR_B)};
+        floor[3] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, (float)Constants::WINDOW_HEIGHT}, sf::Color(Constants::FLOOR_R, Constants::FLOOR_G, Constants::FLOOR_B)};
+        window.draw(floor);
+
         raycaster.draw(window, worldMap, player);
 
         /* For debugging: draw 2D map and player
