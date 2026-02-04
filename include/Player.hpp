@@ -12,12 +12,11 @@ public:
 
     // Getters
     sf::Vector2f getPosition() const { return position; }
-    float getAngle() const { return angle; }
+    sf::Vector2f dir;
+    sf::Vector2f plane;
 private:
 
     sf::Vector2f position;
-    sf::Vector2f direction;
-    float angle; // in radians
 
     void CheckCollision(const Map& map, sf::Vector2f newPosition);
 };

@@ -5,24 +5,18 @@
 
 void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &player) {
 
-    // Initial Configuration
-
-    float rayAngle = player.getAngle() - (Constants::FOV * Constants::DR) / 2.0f;
-
-    float angleStep = (Constants::FOV * Constants::DR) / (float)Constants::WINDOW_WIDTH;
-
     sf::VertexArray walls(sf::PrimitiveType::Lines);
 
     // Raycasting Loop
 
     for (int ray = 0; ray < Constants::WINDOW_WIDTH; ++ray) {
 
-        rayAngle = normalizeAngle(rayAngle);
+        float cameraX = 2 * ray / (float)Constants::WINDOW_WIDTH - 1;
 
         // Ray direction
 
-        float rayX = std::cos(rayAngle);
-        float rayY = std::sin(rayAngle);
+        float rayDirX = player.dir.x + player.plane.x * cameraX;
+        float rayDirY = player.dir.y + player.plane.y * cameraX;
 
         // Map position
 
@@ -35,8 +29,8 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         float sideDistY;
 
         // Length of ray from one x or y-side to next x or y-side
-        float deltaDistX = (rayX == 0) ? 1e30 : std::abs(1.0f / rayX);
-        float deltaDistY = (rayY == 0) ? 1e30 : std::abs(1.0f / rayY);
+        float deltaDistX = (rayDirX == 0) ? 1e30 : std::abs(1.0f / rayDirX);
+        float deltaDistY = (rayDirY == 0) ? 1e30 : std::abs(1.0f / rayDirY);
 
         float perpWallDist; // Perpendicular distance to wall
         int stepX;
@@ -45,7 +39,7 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         bool hit = false;
         int side;
 
-        if (rayX < 0) {
+        if (rayDirX < 0) {
             stepX = -1;
             sideDistX = (player.getPosition().x / map.getTileSize() - mapX) * deltaDistX;
         } else {
@@ -53,7 +47,7 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
             sideDistX = (mapX + 1.0f - player.getPosition().x / map.getTileSize()) * deltaDistX;
         }
 
-        if (rayY < 0) {
+        if (rayDirY < 0) {
             stepY = -1;
             sideDistY = (player.getPosition().y / map.getTileSize() - mapY) * deltaDistY;
         } else {
@@ -83,11 +77,6 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         else
             perpWallDist = (sideDistY - deltaDistY);
 
-        // Fish eye fix
-        float ca = player.getAngle() - rayAngle;
-        ca = normalizeAngle(ca);
-        perpWallDist = perpWallDist * std::cos(ca);
-
         // Calculate height of line to draw on screen
 
         int lineHeight = (int)(Constants::WINDOW_HEIGHT / perpWallDist);
@@ -109,8 +98,6 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
 
         walls.append(sf::Vertex{sf::Vector2f(ray, drawStart), color});
         walls.append(sf::Vertex{sf::Vector2f(ray, drawEnd), color});
-
-        rayAngle += angleStep;
     }
      window.draw(walls);
 }

@@ -3,32 +3,40 @@
 
 Player::Player() {
     position = {300.0f, 300.0f};
-    angle = 0.0f;
-    direction = {1.0f, 0.0f};
+    dir = {-1.0f, 0.0f};
+    plane = {0.0f, 0.66f};
 }
 
 void Player::update(const Map& map, float dt) {
-    sf::Vector2f newPosition = position;
+    float moveSpeed = Constants::PLAYER_SPEED * dt;
+    float rotSpeed = Constants::PLAYER_ROTATION_SPEED * dt;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-        newPosition += direction * Constants::PLAYER_SPEED * dt;
+        sf::Vector2f newPos = {position.x + dir.x * moveSpeed, position.y + dir.y * moveSpeed};
+        CheckCollision(map, newPos);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-        newPosition -= direction * Constants::PLAYER_SPEED * dt;
+        sf::Vector2f newPos = {position.x - dir.x * moveSpeed, position.y - dir.y * moveSpeed};
+        CheckCollision(map, newPos);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-        angle -= Constants::PLAYER_ROTATION_SPEED;
+        float oldDirX = dir.x;
+        dir.x = dir.x * std::cos(rotSpeed) - dir.y * std::sin(rotSpeed);
+        dir.y = oldDirX * std::sin(rotSpeed) + dir.y * std::cos(rotSpeed);
+        
+        float oldPlaneX = plane.x;
+        plane.x = plane.x * std::cos(rotSpeed) - plane.y * std::sin(rotSpeed);
+        plane.y = oldPlaneX * std::sin(rotSpeed) + plane.y * std::cos(rotSpeed);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-        angle += Constants::PLAYER_ROTATION_SPEED;
+        float oldDirX = dir.x;
+        dir.x = dir.x * std::cos(-rotSpeed) - dir.y * std::sin(-rotSpeed);
+        dir.y = oldDirX * std::sin(-rotSpeed) + dir.y * std::cos(-rotSpeed);
+        
+        float oldPlaneX = plane.x;
+        plane.x = plane.x * std::cos(-rotSpeed) - plane.y * std::sin(-rotSpeed);
+        plane.y = oldPlaneX * std::sin(-rotSpeed) + plane.y * std::cos(-rotSpeed);
     }
-
-    // Update direction based on angle
-    direction.x = cos(angle);
-    direction.y = sin(angle);
-
-    // Check for collisions before updating position
-    CheckCollision(map, newPosition);
 }
 
 void Player::CheckCollision(const Map& map, sf::Vector2f newPosition) {
@@ -50,7 +58,7 @@ void Player::draw(sf::RenderWindow& window) const {
     sf::Vertex line[] =
     {
         sf::Vertex{position, sf::Color::Red},
-        sf::Vertex{position + direction * 20.0f, sf::Color::Red}
+        sf::Vertex{position + dir * 20.0f, sf::Color::Red}
     };
 
     window.draw(playerShape);
