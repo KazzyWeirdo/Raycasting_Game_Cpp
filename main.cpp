@@ -3,6 +3,7 @@
 #include "include/Constant.hpp"
 #include "include/Map.hpp"
 #include "include/Player.hpp"
+#include "include/Raycaster.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), Constants::WINDOW_TITLE);
@@ -10,6 +11,7 @@ int main() {
 
     Map worldMap;
     Player player;
+    Raycaster raycaster;
 
     sf::Clock clock;
 
@@ -29,10 +31,16 @@ int main() {
         }
 
         player.update(worldMap, dt);
-        
         window.clear(sf::Color(50, 50, 50));
+        raycaster.draw(window, worldMap, player);
+
+        /* For debugging: draw 2D map and player
+        
         worldMap.draw(window);
         player.draw(window);
+        
+        */
+
         window.display();
     }
 
