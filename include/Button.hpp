@@ -3,9 +3,9 @@
 #include <string>
 #include <functional>
 
-class MapButton {
+class Button {
 public:
-    MapButton(float x, float y, float width, float height, 
+    Button(float x, float y, float width, float height, 
               const std::string& text, const sf::Font& font);
 
     void draw(sf::RenderWindow& window) const;

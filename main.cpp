@@ -5,7 +5,7 @@
 #include "include/Player.hpp"
 #include "include/Raycaster.hpp"
 #include "include/MapManager.hpp"
-#include "include/MapButton.hpp"
+#include "include/Button.hpp"
 #include <iostream>
 
 enum class GameState {
@@ -32,7 +32,7 @@ int main() {
     // Program State
     GameState gameStateCurrent = GameState::MENU;
 
-    std::vector<MapButton> mapButtons;
+    std::vector<Button> mapButtons;
     MapManager::ensureAssetsDirectory();
     std::vector<std::string> availableMaps = MapManager::listAvailableMaps();
 
@@ -42,7 +42,7 @@ int main() {
         startY += 60.0f;
     }
 
-    MapButton exitButton(200.0f, startY, 400.0f, 50.0f, "Exit", font);
+    Button exitButton(200.0f, startY, 400.0f, 50.0f, "Exit", font);
 
     while (window.isOpen()) {
 
