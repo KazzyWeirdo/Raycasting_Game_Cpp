@@ -81,7 +81,6 @@ int main() {
                         if (levelData.width > 0) {
                             worldMap.loadLevel(levelData);
                             player = Player();
-                            std::cout << "Loaded map: " << button.getText() << std::endl;
                             gameStateCurrent = GameState::GAME;
                         }
                         else {

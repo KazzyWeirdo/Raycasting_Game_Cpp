@@ -55,7 +55,7 @@ LevelData MapManager::loadMap(const std::string& filename) {
     file >> wallR >> wallG >> wallB;
     data.wallR = wallR; data.wallG = wallG; data.wallB = wallB;
 
-    int intensity;
+    float intensity;
     file >> intensity;
     data.fogIntensity = intensity;
 
