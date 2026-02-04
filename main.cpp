@@ -34,16 +34,23 @@ int main() {
 
     std::vector<Button> mapButtons;
     MapManager::ensureAssetsDirectory();
-    std::vector<std::string> availableMaps = MapManager::listAvailableMaps();
+    std::vector<std::string> availableMaps= MapManager::listAvailableMaps();
 
-    float startY = 100.0f;
-    for (const auto& mapName : availableMaps) {
-        mapButtons.emplace_back(200.0f, startY, 400.0f, 50.0f, mapName, font);
-        startY += 60.0f;
-    }
+    Button exitButton(600.0f, 100.0f, 400.0f, 50.0f, "Exit", font);
+    Button creatorButton(600.0f, 220.0f, 400.0f, 50.0f, "Map Creator", font);
 
-    Button exitButton(200.0f, startY, 400.0f, 50.0f, "Exit", font);
-    Button creatorButton(200.0f, startY + 60.0f, 400.0f, 50.0f, "Map Creator", font);
+    auto refreshMenu = [&]() {
+        mapButtons.clear();
+        std::vector<std::string> availableMaps= MapManager::listAvailableMaps();
+
+        float startY = 100.0f;
+        for (const auto& mapName : availableMaps) {
+            mapButtons.emplace_back(100.0f, startY, 400.0f, 50.0f, mapName, font);
+            startY += 60.0f;
+        }
+    };
+
+    refreshMenu();
 
     while (window.isOpen()) {
 
@@ -55,7 +62,7 @@ int main() {
             }
 
             switch(gameStateCurrent) {
-                case GameState::MENU:
+                case GameState::MENU: 
                     for (auto& button : mapButtons) {
                         button.update(sf::Mouse::getPosition(window));
                         if (button.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
@@ -83,12 +90,14 @@ int main() {
                     if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                         if (keyPressed->code == sf::Keyboard::Key::Escape) {
                             gameStateCurrent = GameState::MENU;
+                            sf::sleep(sf::milliseconds(200)); // Prevent immediate re-entry
                         }
                     }
                     break;
                 case GameState::CREATOR:
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                             gameStateCurrent = GameState::MENU;
+                            refreshMenu();
                             sf::sleep(sf::milliseconds(200)); // Prevent immediate re-entry
                     }
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
@@ -150,17 +159,11 @@ int main() {
                 window.draw(floor);
 
                 raycaster.draw(window, worldMap, player);
-
-                /* For debugging: draw 2D map and player
-                player.draw(window);
-                
-                */
                 break;
             }
             case GameState::CREATOR:
                 worldMap.draw(window);
-
-                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                player.draw(window);
                 
                 break;
         }
