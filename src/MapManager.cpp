@@ -35,7 +35,7 @@ bool MapManager::saveMap(const std::string& filename, LevelData& data) {
 
 LevelData MapManager::loadMap(const std::string& filename) {
     LevelData data;
-    std::ifstream file("assets/" + filename + ".map");
+    std::ifstream file("assets/" + filename);
     if (!file.is_open()) {
         std::cerr << "Failed to open file for loading: " << filename << std::endl;
         return data;

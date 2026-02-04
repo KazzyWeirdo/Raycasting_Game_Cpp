@@ -5,21 +5,37 @@
 #include "include/Player.hpp"
 #include "include/Raycaster.hpp"
 #include "include/MapManager.hpp"
+#include "include/MapButton.hpp"
 #include <iostream>
+
+enum class GameState {
+    MENU,
+    GAME
+};
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), Constants::WINDOW_TITLE);
     window.setFramerateLimit(Constants::FRAME_RATE);
 
+    sf::Font font;
+        if (!font.openFromFile("../assets/arial.ttf")) {
+            std::cerr << "Error loading font 'assets/arial.ttf'" << std::endl;
+            return -1;
+        }
+
     Map worldMap;
     Player player;
+    Raycaster raycaster;
+    sf::Clock clock;
 
+        /* Test level saving and loading
+    
     LevelData testLevel;
     testLevel.width = 10;
     testLevel.height = 10;
     testLevel.tiles = std::vector<int>(100, 0); 
     testLevel.tiles[55] = 1;
-    testLevel.skyR = 0; testLevel.skyG = 244; testLevel.skyB = 0;
+    testLevel.skyR = 100; testLevel.skyG = 100; testLevel.skyB = 100;
     testLevel.floorR = 0; testLevel.floorG = 0; testLevel.floorB = 50;
     testLevel.wallR = 200; testLevel.wallG = 0; testLevel.wallB = 0;
     testLevel.fogIntensity = 10.5f;
@@ -29,10 +45,23 @@ int main() {
     std::cout << "Mapa guardado en assets/prueba.map" << std::endl;
     LevelData loadedLevel = MapManager::loadMap("prueba");
     worldMap.loadLevel(loadedLevel);
+    
+    */
 
-    Raycaster raycaster;
+    // Program State
+    GameState gameStateCurrent = GameState::MENU;
 
-    sf::Clock clock;
+    std::vector<MapButton> mapButtons;
+    MapManager::ensureAssetsDirectory();
+    std::vector<std::string> availableMaps = MapManager::listAvailableMaps();
+
+    float startY = 100.0f;
+    for (const auto& mapName : availableMaps) {
+        mapButtons.emplace_back(200.0f, startY, 400.0f, 50.0f, mapName, font);
+        startY += 60.0f;
+    }
+
+    MapButton exitButton(200.0f, startY, 400.0f, 50.0f, "Exit", font);
 
     while (window.isOpen()) {
 
@@ -42,16 +71,52 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-            else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-                if (keyPressed->code == sf::Keyboard::Key::Escape) {
+
+            if (gameStateCurrent == GameState::MENU) {
+                for (auto& button : mapButtons) {
+                    button.update(sf::Mouse::getPosition(window));
+                    if (button.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
+                        std::cout << "Loading map: " << button.getText() << std::endl;
+                        LevelData levelData = MapManager::loadMap(button.getText());
+                        if (levelData.width > 0) {
+                            worldMap.loadLevel(levelData);
+                            player = Player();
+                            std::cout << "Loaded map: " << button.getText() << std::endl;
+                            gameStateCurrent = GameState::GAME;
+                        }
+                        else {
+                            std::cerr << "Failed to load map: " << button.getText() << std::endl;
+                        }
+                    }
+                }
+                exitButton.update(sf::Mouse::getPosition(window));
+                if (exitButton.isClicked(sf::Mouse::getPosition(window)) && event->is<sf::Event::MouseButtonPressed>()) {
                     window.close();
                 }
             }
+
+            else if (gameStateCurrent == GameState::GAME) {
+                if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                    if (keyPressed->code == sf::Keyboard::Key::Escape) {
+                        gameStateCurrent = GameState::MENU;
+                    }
+                }
+            }
+
         }
 
-        player.update(worldMap, dt);
         window.clear(worldMap.getSkyColor());
 
+        if (gameStateCurrent == GameState::MENU) {
+            for (auto& button : mapButtons) {
+                button.update((sf::Mouse::getPosition(window)));
+                button.draw(window);
+            }
+            exitButton.update((sf::Mouse::getPosition(window)));
+            exitButton.draw(window);
+        }
+        else if (gameStateCurrent == GameState::GAME) {
+        player.update(worldMap, dt);
         sf::VertexArray sky(sf::PrimitiveType::TriangleStrip, 4);
         sky[0] = sf::Vertex{{0.0f, 0.0f}, worldMap.getSkyColor()};
         sky[1] = sf::Vertex{{(float)Constants::WINDOW_WIDTH, 0.0f}, worldMap.getSkyColor()};
@@ -74,6 +139,7 @@ int main() {
         player.draw(window);
         
         */
+        }
 
         window.display();
     }
