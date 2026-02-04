@@ -2,18 +2,20 @@
 #include <optional>
 #include "include/Constant.hpp"
 #include "include/Map.hpp"
+#include "include/Player.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), Constants::WINDOW_TITLE);
     window.setFramerateLimit(Constants::FRAME_RATE);
 
     Map worldMap;
+    Player player;
 
-    sf::CircleShape player(Constants::PLAYER_SIZE);
-    player.setFillColor(sf::Color::Yellow);
-    player.setPosition({300.f, 300.f});
+    sf::Clock clock;
 
     while (window.isOpen()) {
+
+        float dt = clock.restart().asSeconds() * 60.0f;
         
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
@@ -25,10 +27,12 @@ int main() {
                 }
             }
         }
+
+        player.update(worldMap, dt);
         
         window.clear(sf::Color(50, 50, 50));
         worldMap.draw(window);
-        window.draw(player);
+        player.draw(window);
         window.display();
     }
 
