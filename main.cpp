@@ -31,7 +31,7 @@ int main() {
         }
 
         player.update(worldMap, dt);
-        window.clear(sf::Color(50, 50, 50));
+        window.clear(sf::Color(Constants::FOG_R, Constants::FOG_G, Constants::FOG_B));
         raycaster.draw(window, worldMap, player);
 
         /* For debugging: draw 2D map and player

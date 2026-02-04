@@ -98,17 +98,26 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         if (drawEnd >= Constants::WINDOW_HEIGHT) drawEnd = Constants::WINDOW_HEIGHT - 1;
 
         sf::Color color = sf::Color::Red;
-        if (side == 1) {
-            color = sf::Color(0, 200, 0); // Darker for y-side walls
+        if (side == 1) {// Darker for y-side walls
+            color.r /= 2;
+            color.g /= 2;
+            color.b /= 2;
         }
 
-        float shadowFactor = std::max(0.2f, 1.0f - perpWallDist / 10.0f);
-        color.r = (std::uint8_t)(color.r * shadowFactor);
-        color.g = (std::uint8_t)(color.g * shadowFactor);
-        color.b = (std::uint8_t)(color.b * shadowFactor);
+        float fog = perpWallDist / Constants::FOG_DISTANCE;
 
-        walls.append(sf::Vertex{sf::Vector2f(ray, drawStart), color});
-        walls.append(sf::Vertex{sf::Vector2f(ray, drawEnd), color});
+        if (fog > 1.0f) fog = 1.0f;
+        if (fog < 0.0f) fog = 0.0f;
+
+        float wallFactor = 1.0f - fog;
+
+        sf::Color finalColor;
+        finalColor.r = (std::uint8_t)(color.r * wallFactor + Constants::FOG_R * fog);
+        finalColor.g = (std::uint8_t)(color.g * wallFactor + Constants::FOG_G * fog);
+        finalColor.b = (std::uint8_t)(color.b * wallFactor + Constants::FOG_B * fog);
+
+        walls.append(sf::Vertex{sf::Vector2f(ray, drawStart), finalColor});
+        walls.append(sf::Vertex{sf::Vector2f(ray, drawEnd), finalColor});
     }
      window.draw(walls);
 }
