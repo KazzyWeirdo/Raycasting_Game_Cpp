@@ -102,6 +102,11 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
             color = sf::Color(0, 200, 0); // Darker for y-side walls
         }
 
+        float shadowFactor = std::max(0.2f, 1.0f - perpWallDist / 10.0f);
+        color.r = (std::uint8_t)(color.r * shadowFactor);
+        color.g = (std::uint8_t)(color.g * shadowFactor);
+        color.b = (std::uint8_t)(color.b * shadowFactor);
+
         walls.append(sf::Vertex{sf::Vector2f(ray, drawStart), color});
         walls.append(sf::Vertex{sf::Vector2f(ray, drawEnd), color});
     }

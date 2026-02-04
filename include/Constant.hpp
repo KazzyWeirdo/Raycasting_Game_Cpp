@@ -15,9 +15,9 @@ namespace Constants {
     constexpr double DR = 0.0174533;                // one degree in radians
 
     // --- Map Configuration ---
-    constexpr int MAP_WIDTH = 8;
-    constexpr int MAP_HEIGHT = 8;
-    constexpr float TILE_SIZE = 64.0f;
+    constexpr int MAP_WIDTH = 12;
+    constexpr int MAP_HEIGHT = 12;
+    constexpr float TILE_SIZE = 144.0f;
 
     // --- Player Configuration  ---
     constexpr float PLAYER_SPEED = 5.0f;
