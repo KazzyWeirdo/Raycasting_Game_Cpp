@@ -71,28 +71,28 @@ include CMakeFiles/Game.dir/flags.make
 CMakeFiles/Game.dir/codegen:
 .PHONY : CMakeFiles/Game.dir/codegen
 
-CMakeFiles/Game.dir/src/main.cpp.obj: CMakeFiles/Game.dir/flags.make
-CMakeFiles/Game.dir/src/main.cpp.obj: C:/Users/dani2/OneDrive/Documentos/C++_projects/Raycasting_Game_Cpp/src/main.cpp
-CMakeFiles/Game.dir/src/main.cpp.obj: CMakeFiles/Game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\dani2\OneDrive\Documentos\C++_projects\Raycasting_Game_Cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Game.dir/src/main.cpp.obj"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Game.dir/src/main.cpp.obj -MF CMakeFiles\Game.dir\src\main.cpp.obj.d -o CMakeFiles\Game.dir\src\main.cpp.obj -c C:\Users\dani2\OneDrive\Documentos\C++_projects\Raycasting_Game_Cpp\src\main.cpp
+CMakeFiles/Game.dir/main.cpp.obj: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/main.cpp.obj: C:/Users/dani2/OneDrive/Documentos/C++_projects/Raycasting_Game_Cpp/main.cpp
+CMakeFiles/Game.dir/main.cpp.obj: CMakeFiles/Game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\dani2\OneDrive\Documentos\C++_projects\Raycasting_Game_Cpp\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Game.dir/main.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Game.dir/main.cpp.obj -MF CMakeFiles\Game.dir\main.cpp.obj.d -o CMakeFiles\Game.dir\main.cpp.obj -c C:\Users\dani2\OneDrive\Documentos\C++_projects\Raycasting_Game_Cpp\main.cpp
 
-CMakeFiles/Game.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Game.dir/src/main.cpp.i"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\dani2\OneDrive\Documentos\C++_projects\Raycasting_Game_Cpp\src\main.cpp > CMakeFiles\Game.dir\src\main.cpp.i
+CMakeFiles/Game.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Game.dir/main.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\dani2\OneDrive\Documentos\C++_projects\Raycasting_Game_Cpp\main.cpp > CMakeFiles\Game.dir\main.cpp.i
 
-CMakeFiles/Game.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/main.cpp.s"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\dani2\OneDrive\Documentos\C++_projects\Raycasting_Game_Cpp\src\main.cpp -o CMakeFiles\Game.dir\src\main.cpp.s
+CMakeFiles/Game.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Game.dir/main.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\dani2\OneDrive\Documentos\C++_projects\Raycasting_Game_Cpp\main.cpp -o CMakeFiles\Game.dir\main.cpp.s
 
 # Object files for target Game
 Game_OBJECTS = \
-"CMakeFiles/Game.dir/src/main.cpp.obj"
+"CMakeFiles/Game.dir/main.cpp.obj"
 
 # External object files for target Game
 Game_EXTERNAL_OBJECTS =
 
-Game.exe: CMakeFiles/Game.dir/src/main.cpp.obj
+Game.exe: CMakeFiles/Game.dir/main.cpp.obj
 Game.exe: CMakeFiles/Game.dir/build.make
 Game.exe: C:/msys64/ucrt64/lib/libsfml-graphics.dll.a
 Game.exe: C:/msys64/ucrt64/lib/libsfml-window.dll.a

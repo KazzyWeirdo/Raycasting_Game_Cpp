@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/dani2/OneDrive/Documentos/C++_projects/Raycasting_Game_Cpp/src/main.cpp" "CMakeFiles/Game.dir/src/main.cpp.obj" "gcc" "CMakeFiles/Game.dir/src/main.cpp.obj.d"
+  "C:/Users/dani2/OneDrive/Documentos/C++_projects/Raycasting_Game_Cpp/main.cpp" "CMakeFiles/Game.dir/main.cpp.obj" "gcc" "CMakeFiles/Game.dir/main.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

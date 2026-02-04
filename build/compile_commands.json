@@ -1,8 +1,8 @@
 [
 {
   "directory": "C:/Users/dani2/OneDrive/Documentos/C++_projects/Raycasting_Game_Cpp/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe   -g -std=gnu++17 -Wall -Wextra -o CMakeFiles\\Game.dir\\src\\main.cpp.obj -c C:\\Users\\dani2\\OneDrive\\Documentos\\C++_projects\\Raycasting_Game_Cpp\\src\\main.cpp",
-  "file": "C:/Users/dani2/OneDrive/Documentos/C++_projects/Raycasting_Game_Cpp/src/main.cpp",
-  "output": "CMakeFiles/Game.dir/src/main.cpp.obj"
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe   -g -std=gnu++17 -Wall -Wextra -o CMakeFiles\\Game.dir\\main.cpp.obj -c C:\\Users\\dani2\\OneDrive\\Documentos\\C++_projects\\Raycasting_Game_Cpp\\main.cpp",
+  "file": "C:/Users/dani2/OneDrive/Documentos/C++_projects/Raycasting_Game_Cpp/main.cpp",
+  "output": "CMakeFiles/Game.dir/main.cpp.obj"
 }
 ]

@@ -10,6 +10,6 @@ add_compile_options(-Wall -Wextra)
 
 find_package(SFML 3 COMPONENTS Graphics Window System REQUIRED)
 
-add_executable(Game src/main.cpp)
+add_executable(Game main.cpp)
 
 target_link_libraries(Game PRIVATE SFML::Graphics SFML::Window SFML::System)
