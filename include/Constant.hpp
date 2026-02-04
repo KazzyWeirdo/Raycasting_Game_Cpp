@@ -14,6 +14,11 @@ namespace Constants {
     constexpr double P3 = 3 * PI / 2;
     constexpr double DR = 0.0174533;                // one degree in radians
 
+    // --- Map Configuration ---
+    constexpr int MAP_WIDTH = 8;
+    constexpr int MAP_HEIGHT = 8;
+    constexpr float TILE_SIZE = 64.0f;
+
     // --- Player Configuration  ---
     constexpr float PLAYER_SPEED = 5.0f;
     constexpr float PLAYER_ROTATION_SPEED = 0.1f;

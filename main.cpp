@@ -1,11 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <optional>
 #include "include/Constant.hpp"
+#include "include/Map.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), Constants::WINDOW_TITLE);
-
     window.setFramerateLimit(Constants::FRAME_RATE);
+
+    Map worldMap;
 
     sf::CircleShape player(Constants::PLAYER_SIZE);
     player.setFillColor(sf::Color::Yellow);
@@ -25,6 +27,7 @@ int main() {
         }
         
         window.clear(sf::Color(50, 50, 50));
+        worldMap.draw(window);
         window.draw(player);
         window.display();
     }
