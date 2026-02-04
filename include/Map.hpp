@@ -8,6 +8,7 @@ struct LevelData {
 
     std::uint8_t skyR, skyG, skyB;
     std::uint8_t floorR, floorG, floorB;
+    std::uint8_t wallR, wallG, wallB;
     float fogIntensity;
 };
 
@@ -29,6 +30,7 @@ public:
     int getTileSize() const { return tileSize; }
     sf::Color getSkyColor() const { return skyColor; }
     sf::Color getFloorColor() const { return floorColor; }
+    sf::Color getWallColor() const { return wallColor; }
     float getFogIntensity() const { return fogIntensity; }
 private:
     int mapWidth;
@@ -38,5 +40,6 @@ private:
     std::vector<int> tiles;
     sf::Color skyColor;
     sf::Color floorColor;
+    sf::Color wallColor;
     float fogIntensity;
 };

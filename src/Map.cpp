@@ -32,6 +32,7 @@ void Map::loadLevel(const LevelData& levelData)
     tiles = levelData.tiles;
     skyColor = sf::Color(levelData.skyR, levelData.skyG, levelData.skyB);
     floorColor = sf::Color(levelData.floorR, levelData.floorG, levelData.floorB);
+    wallColor = sf::Color(levelData.wallR, levelData.wallG, levelData.wallB);
     fogIntensity = levelData.fogIntensity;
 }
 

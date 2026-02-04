@@ -23,6 +23,7 @@ bool MapManager::saveMap(const std::string& filename, LevelData& data) {
 
     file << (int)data.skyR << " " << (int)data.skyG << " " << (int)data.skyB << "\n";
     file << (int)data.floorR << " " << (int)data.floorG << " " << (int)data.floorB << "\n";
+    file << (int)data.wallR << " " << (int)data.wallG << " " << (int)data.wallB << "\n";
     file << data.fogIntensity << "\n";
 
     for (int tile : data.tiles) {
@@ -46,13 +47,17 @@ LevelData MapManager::loadMap(const std::string& filename) {
     file >> skyR >> skyG >> skyB;
     data.skyR = skyR; data.skyG = skyG; data.skyB = skyB;
 
-    int intensity;
-    file >> intensity;
-    data.fogIntensity = intensity;
-
     int floorR, floorG, floorB;
     file >> floorR >> floorG >> floorB;
     data.floorR = floorR; data.floorG = floorG; data.floorB = floorB;
+
+    int wallR, wallG, wallB;
+    file >> wallR >> wallG >> wallB;
+    data.wallR = wallR; data.wallG = wallG; data.wallB = wallB;
+
+    int intensity;
+    file >> intensity;
+    data.fogIntensity = intensity;
 
     data.tiles.resize(data.width * data.height);
     for (int& tile : data.tiles) {
