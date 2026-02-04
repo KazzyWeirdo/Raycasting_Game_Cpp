@@ -1,12 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <optional>
+#include "include/Constant.hpp"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode({1024, 512}), "Raycaster Portfolio - SFML 3");
+    sf::RenderWindow window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), Constants::WINDOW_TITLE);
 
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(Constants::FRAME_RATE);
 
-    sf::CircleShape player(10.f);
+    sf::CircleShape player(Constants::PLAYER_SIZE);
     player.setFillColor(sf::Color::Yellow);
     player.setPosition({300.f, 300.f});
 

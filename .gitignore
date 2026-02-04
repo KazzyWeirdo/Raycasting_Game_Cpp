@@ -1,1 +1,7 @@
 /build
+/build
+build/CMakeFiles/Game.dir/compiler_depend.make
+build/CMakeFiles/Game.dir/main.cpp.obj
+build/CMakeFiles/Game.dir/main.cpp.obj.d
+build/CMakeFiles/Game.dir/objects.a
+build/Game.exe
