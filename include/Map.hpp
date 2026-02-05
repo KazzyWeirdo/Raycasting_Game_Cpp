@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <string>
 
 struct LevelData {
+    std::string name;
     std::vector<int> tiles;
     int width, height;
 
@@ -34,6 +36,7 @@ public:
     float getFogIntensity() const { return fogIntensity; }
     LevelData getLevelData() const {
         LevelData data;
+        data.name = levelName;
         data.width = mapWidth;
         data.height = mapHeight;
         data.tiles = tiles;
@@ -50,6 +53,7 @@ public:
         return data;
     }
 private:
+    std::string levelName;
     int mapWidth;
     int mapHeight;
     int tileSize;

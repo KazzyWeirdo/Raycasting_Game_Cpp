@@ -3,14 +3,15 @@
 
 Map::Map() {
 
-    mapWidth = Constants::MAP_WIDTH;
-    mapHeight = Constants::MAP_HEIGHT;
+    levelName = Constants::DEFAULT_LEVEL_NAME;
+    mapWidth = Constants::DEFAULT_MAP_WIDTH;
+    mapHeight = Constants::DEFAULT_MAP_HEIGHT;
     tileSize = Constants::TILE_SIZE;
 
     tiles.resize(mapWidth * mapHeight, 0); // Initialize all tiles to empty space
-    skyColor = sf::Color(Constants::FOG_R, Constants::FOG_G, Constants::FOG_B);
-    floorColor = sf::Color(Constants::FLOOR_R, Constants::FLOOR_G, Constants::FLOOR_B);
-    fogIntensity = 5.5f;
+    skyColor = sf::Color(Constants::DEFAULT_FOG_R, Constants::DEFAULT_FOG_G, Constants::DEFAULT_FOG_B);
+    floorColor = sf::Color(Constants::DEFAULT_FLOOR_R, Constants::DEFAULT_FLOOR_G, Constants::DEFAULT_FLOOR_B);
+    fogIntensity = Constants::DEFAULT_FOG_DISTANCE;
 
     for(int x = 0; x < mapWidth; ++x) {
         tiles[x] = 1; // Top wall

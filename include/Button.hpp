@@ -12,14 +12,13 @@ public:
     void update(sf::Vector2i mousePosition);
     bool isClicked(const sf::Vector2i mousePosition) const;  
     void setText(const std::string& label);
-    const std::string getText() const {return this->mapName;};
+    const std::string getText() const {return buttonText.getString();};
     
 private:
     sf::RectangleShape buttonShape;
     sf::Text buttonText;
     sf::Color idleColor;
     sf::Color hoverColor;
-    std::string mapName;
 
     void centerText();
 };

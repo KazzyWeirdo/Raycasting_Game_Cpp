@@ -137,8 +137,8 @@ void Game::updateCreator() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
         LevelData dataToSave = m_worldMap.getLevelData();
 
-        if (MapManager::saveMap("custom_map.map", dataToSave)) {
-            std::cout << "Map saved as 'custom_map.map'" << std::endl;
+        if (MapManager::saveMap(dataToSave.name, dataToSave)) {
+            std::cout << "Map saved as '" << dataToSave.name << "'" << std::endl;
         }
         sf::sleep(sf::milliseconds(200)); 
     }

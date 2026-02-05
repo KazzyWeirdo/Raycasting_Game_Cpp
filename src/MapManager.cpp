@@ -13,7 +13,7 @@ void MapManager::ensureAssetsDirectory() {
 
 bool MapManager::saveMap(const std::string& filename, LevelData& data) {
     ensureAssetsDirectory();
-    std::ofstream file("assets/" + filename);
+    std::ofstream file("assets/" + filename + ".map");
     if (!file.is_open()) {
         std::cerr << "Failed to open file for saving: " << filename << std::endl;
         return false;

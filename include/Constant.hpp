@@ -15,18 +15,23 @@ namespace Constants {
     constexpr double DR = 0.0174533;                // one degree in radians
 
     // --- Map Basic Configuration ---
-    constexpr int MAP_WIDTH = 12;
-    constexpr int MAP_HEIGHT = 12;
+    constexpr char DEFAULT_LEVEL_NAME[] = "default_map";
+    constexpr int DEFAULT_MAP_WIDTH = 12;
+    constexpr int DEFAULT_MAP_HEIGHT = 12;
     constexpr float TILE_SIZE = 64.0f;
 
-    constexpr float FOG_DISTANCE = 5.5f;
-    constexpr std::uint8_t FOG_R = 150;
-    constexpr std::uint8_t FOG_G = 150;
-    constexpr std::uint8_t FOG_B = 150;
+    constexpr float DEFAULT_FOG_DISTANCE = 5.5f;
+    constexpr std::uint8_t DEFAULT_FOG_R = 150;
+    constexpr std::uint8_t DEFAULT_FOG_G = 150;
+    constexpr std::uint8_t DEFAULT_FOG_B = 150;
 
-    constexpr std::uint8_t FLOOR_R = 20;
-    constexpr std::uint8_t FLOOR_G = 50;
-    constexpr std::uint8_t FLOOR_B = 20;
+    constexpr std::uint8_t DEFAULT_FLOOR_R = 20;
+    constexpr std::uint8_t DEFAULT_FLOOR_G = 50;
+    constexpr std::uint8_t DEFAULT_FLOOR_B = 20;
+
+    constexpr std::uint8_t DEFAULT_WALL_R = 100;
+    constexpr std::uint8_t DEFAULT_WALL_G = 100;
+    constexpr std::uint8_t DEFAULT_WALL_B = 100;
 
     // --- Player Configuration  ---
     constexpr float PLAYER_SPEED = 5.0f;

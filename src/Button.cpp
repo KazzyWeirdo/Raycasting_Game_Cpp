@@ -5,8 +5,7 @@ Button::Button(float x, float y, float width, float height,
                      const std::string& text, const sf::Font& font)
                      // SFML 3 requires initializing sf::Text with a font before setting other properties
                      : buttonText(font) {
-
-    this->mapName = text;
+                        
     idleColor = sf::Color(Constants::IDLE_MAP_BUTTON_R, Constants::IDLE_MAP_BUTTON_G, Constants::IDLE_MAP_BUTTON_B);
     hoverColor = sf::Color(Constants::HOVER_MAP_BUTTON_R, Constants::HOVER_MAP_BUTTON_G, Constants::HOVER_MAP_BUTTON_B);
 
