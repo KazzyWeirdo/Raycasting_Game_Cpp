@@ -55,6 +55,10 @@ void Player::CheckCollision(const Map& map, sf::Vector2f newPosition) {
     }
 }
 
+void Player::loadFromLevelData(const LevelData& levelData) {
+    position = {levelData.playerStartX, levelData.playerStartY};
+}
+
 void Player::draw(sf::RenderWindow& window) const {
     sf::CircleShape playerShape(Constants::PLAYER_SIZE);
     playerShape.setFillColor(sf::Color::Yellow);

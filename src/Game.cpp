@@ -159,6 +159,19 @@ void Game::updateCreator() {
 
     ImGui::Separator();
 
+    ImGui::Text("Player Position:");
+
+    static bool placingPlayer = false;
+    ImGui::Checkbox("Set Spawn Point", &placingPlayer);
+
+    if(placingPlayer) {
+        ImGui::TextColored(ImVec4(0,1,0,1), "Click on the map to set player spawn position");
+    } else {
+        ImGui::TextColored(ImVec4(1,1,1,0.5f), "Click to build walls / Right click to remove walls");
+    }
+
+    ImGui::Separator();
+
     ImGui::Text("Visuals:");
 
     float floorColor[3] = {levelData.floorR/255.0f, levelData.floorG/255.0f, levelData.floorB/255.0f};
@@ -195,9 +208,12 @@ void Game::updateCreator() {
 
     if (dataChanged) {
         m_worldMap.loadLevel(levelData);
+        m_player.loadFromLevelData(levelData);
+        m_player.draw(m_window);
     }
 
     if (ImGui::Button("Save Map", ImVec2(100, 30))) {
+        std::cout << levelData.playerStartX << std::endl;
         if (MapManager::saveMap(levelData.name, levelData)) {
             std::cout << "Map saved as '" << levelData.name << "'" << std::endl;
         }
@@ -225,9 +241,15 @@ void Game::updateCreator() {
             int mapY = localY / m_worldMap.getTileSizeFor2DMap();
 
             if (mapX >= 0 && mapX < m_worldMap.getWidth() && mapY >= 0 && mapY < m_worldMap.getHeight()) {
-                int tileValue = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) ? 0 : 1;
-                if (m_worldMap.getTile(mapX, mapY) != tileValue) {
-                    m_worldMap.setTile(mapX, mapY, tileValue);
+                if(placingPlayer) {
+                    levelData.playerStartX = mapX;
+                    levelData.playerStartY = mapY;
+
+                } else {
+                    int tileValue = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) ? 0 : 1;
+                    if (m_worldMap.getTile(mapX, mapY) != tileValue) {
+                        m_worldMap.setTile(mapX, mapY, tileValue);
+                    }
                 }
             }
         }

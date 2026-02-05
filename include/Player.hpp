@@ -10,8 +10,12 @@ public:
 
     void draw(sf::RenderWindow& window) const;
 
+    void loadFromLevelData(const LevelData& levelData);
+
     // Getters
     sf::Vector2f getPosition() const { return position; }
+
+    // For raycasting
     sf::Vector2f dir;
     sf::Vector2f plane;
 private:

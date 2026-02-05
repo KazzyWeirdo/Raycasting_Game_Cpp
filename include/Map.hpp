@@ -4,10 +4,15 @@
 #include <string>
 
 struct LevelData {
+    // --- Basic Info ---
     std::string name;
     std::vector<int> tiles;
     int width, height;
 
+    // --- Player Start Position ---
+    float playerStartX, playerStartY;
+
+    // --- Colors ---
     std::uint8_t skyR, skyG, skyB;
     std::uint8_t floorR, floorG, floorB;
     std::uint8_t wallR, wallG, wallB;

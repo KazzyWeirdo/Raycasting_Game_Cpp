@@ -20,6 +20,7 @@ bool MapManager::saveMap(const std::string& filename, LevelData& data) {
     }
 
     file << data.width << " " << data.height << "\n";
+    file << data.playerStartX << " " << data.playerStartY << "\n";
 
     file << (int)data.skyR << " " << (int)data.skyG << " " << (int)data.skyB << "\n";
     file << (int)data.floorR << " " << (int)data.floorG << " " << (int)data.floorB << "\n";
@@ -42,6 +43,8 @@ LevelData MapManager::loadMap(const std::string& filename) {
     }
 
     file >> data.width >> data.height;
+
+    file >> data.playerStartX >> data.playerStartY;
 
     int skyR, skyG, skyB;
     file >> skyR >> skyG >> skyB;
