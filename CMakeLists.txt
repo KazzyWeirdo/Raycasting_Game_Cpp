@@ -10,6 +10,8 @@ add_compile_options(-Wall -Wextra)
 
 find_package(SFML 3 COMPONENTS Graphics Window System REQUIRED)
 
-add_executable(Game main.cpp src/Map.cpp src/Player.cpp src/Raycaster.cpp src/MapManager.cpp src/Button.cpp src/Game.cpp src/Renderer.cpp)
+file(GLOB SOURCES "src/*.cpp")
+
+add_executable(Game main.cpp ${SOURCES})
 
 target_link_libraries(Game PRIVATE SFML::Graphics SFML::Window SFML::System)
