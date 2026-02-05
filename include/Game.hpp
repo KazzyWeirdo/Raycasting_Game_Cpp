@@ -8,6 +8,7 @@
 #include "Raycaster.hpp"
 #include "Button.hpp"
 #include "Renderer.hpp"
+#include "LevelCreator.hpp"
 
 enum class GameState {
     MENU,
@@ -47,6 +48,7 @@ class Game {
 
         Map m_worldMap;
         Player m_player;
+        LevelCreator m_levelCreator;
 
         std::vector<Button> m_mapButtons;
         Button m_exitButton;
