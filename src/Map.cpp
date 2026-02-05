@@ -11,6 +11,7 @@ Map::Map() {
     tiles.resize(mapWidth * mapHeight, 0); // Initialize all tiles to empty space
     skyColor = sf::Color(Constants::DEFAULT_FOG_R, Constants::DEFAULT_FOG_G, Constants::DEFAULT_FOG_B);
     floorColor = sf::Color(Constants::DEFAULT_FLOOR_R, Constants::DEFAULT_FLOOR_G, Constants::DEFAULT_FLOOR_B);
+    wallColor = sf::Color(Constants::DEFAULT_WALL_R, Constants::DEFAULT_WALL_G, Constants::DEFAULT_WALL_B);
     fogIntensity = Constants::DEFAULT_FOG_DISTANCE;
 
     for(int x = 0; x < mapWidth; ++x) {
