@@ -185,6 +185,12 @@ void Game::updateCreator() {
         dataChanged = true;
     }
 
+    float newIntensity = levelData.fogIntensity;
+    if (ImGui::InputFloat("Fog Distance", &newIntensity, 1, 1)) {
+        levelData.fogIntensity = newIntensity;
+        dataChanged = true;
+    }
+
     ImGui::Separator();
 
     if (dataChanged) {
@@ -211,8 +217,12 @@ void Game::updateCreator() {
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
             sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-            int mapX = mousePos.x / Constants::TILE_SIZE;
-            int mapY = mousePos.y / Constants::TILE_SIZE;
+
+            int localX = mousePos.x - m_worldMap.getRenderOffsetX();
+            int localY = mousePos.y - m_worldMap.getRenderOffsetY();
+            
+            int mapX = localX / m_worldMap.getTileSizeFor2DMap();
+            int mapY = localY / m_worldMap.getTileSizeFor2DMap();
 
             if (mapX >= 0 && mapX < m_worldMap.getWidth() && mapY >= 0 && mapY < m_worldMap.getHeight()) {
                 int tileValue = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) ? 0 : 1;

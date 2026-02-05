@@ -8,6 +8,10 @@ Map::Map() {
     mapHeight = Constants::DEFAULT_MAP_HEIGHT;
     tileSize = Constants::TILE_SIZE;
 
+    tileSizeFor2DMap = 0.0f;
+    renderOffsetX = 0.0f;
+    renderOffsetY = 0.0f;
+
     tiles.resize(mapWidth * mapHeight, 0); // Initialize all tiles to empty space
     skyColor = sf::Color(Constants::DEFAULT_FOG_R, Constants::DEFAULT_FOG_G, Constants::DEFAULT_FOG_B);
     floorColor = sf::Color(Constants::DEFAULT_FLOOR_R, Constants::DEFAULT_FLOOR_G, Constants::DEFAULT_FLOOR_B);
@@ -23,6 +27,7 @@ Map::Map() {
         tiles[y * mapWidth] = 1; // Left wall
         tiles[y * mapWidth + (mapWidth - 1)] = 1; // Right wall
     }
+    calculateOffset();
 }
 
 void Map::loadLevel(const LevelData& levelData)
@@ -35,6 +40,7 @@ void Map::loadLevel(const LevelData& levelData)
     floorColor = sf::Color(levelData.floorR, levelData.floorG, levelData.floorB);
     wallColor = sf::Color(levelData.wallR, levelData.wallG, levelData.wallB);
     fogIntensity = levelData.fogIntensity;
+    drawLimits();
 }
 
 void Map::resizeMap(int newWidth, int newHeight)
@@ -43,13 +49,15 @@ void Map::resizeMap(int newWidth, int newHeight)
 
     for (int y = 0; y < std::min(mapHeight, newHeight); ++y) {
         for (int x = 0; x < std::min(mapWidth, newWidth); ++x) {
-            newTiles[y * newWidth + x] = getTile(x, y);
+            newTiles[y * newWidth + x] = 0;
         }
     }
 
     mapWidth = newWidth;
     mapHeight = newHeight;
     tiles = std::move(newTiles);
+    calculateOffset();
+    drawLimits();
 }
 
 int Map::getTile(int x, int y) const
@@ -67,19 +75,44 @@ void Map::setTile(int x, int y, int value)
     }
 }
 
+void Map::drawLimits()
+{
+        for (int y = 0; y < mapHeight; ++y) {
+            for (int x = 0; x < mapWidth; ++x) {
+                if (x == mapWidth -1 || y == mapHeight -1 || x == 0 || y == 0) {
+                    tiles[y * mapWidth + x] = 1;
+                }
+            }
+    }
+}
+
+void Map::calculateOffset()
+{
+    float tileSizeW = Constants::WINDOW_WIDTH / mapWidth;
+    float tileSizeH = Constants::WINDOW_HEIGHT / mapHeight;
+
+    tileSizeFor2DMap = std::min(tileSizeW, tileSizeH);
+    float totalMapW = mapWidth * tileSizeFor2DMap;
+    float totalMapH = mapHeight * tileSizeFor2DMap;
+
+    renderOffsetX = (Constants::WINDOW_WIDTH - totalMapW) / 2.0f;
+    renderOffsetY = (Constants::WINDOW_HEIGHT - totalMapH) / 2.0f;
+}
+
 void Map::draw(sf::RenderWindow& window) const
 {
-    sf::RectangleShape tileShape(sf::Vector2f(Constants::TILE_SIZE - 1, Constants::TILE_SIZE - 1));
+
+    sf::RectangleShape tileShape(sf::Vector2f(tileSizeFor2DMap - 1, tileSizeFor2DMap - 1));
 
     for (int y = 0; y < mapHeight; ++y) {
         for (int x = 0; x < mapWidth; ++x) {
             int tile = getTile(x, y);
             if (tile == 1) {
-                tileShape.setFillColor(sf::Color::White);
+                tileShape.setFillColor(wallColor);
             } else {
-                tileShape.setFillColor(sf::Color::Black);
+                tileShape.setFillColor(floorColor);
             }
-            tileShape.setPosition(sf::Vector2f(x * Constants::TILE_SIZE, y * Constants::TILE_SIZE));
+            tileShape.setPosition(sf::Vector2f((x * tileSizeFor2DMap) + renderOffsetX, (y * tileSizeFor2DMap) + renderOffsetY));
             window.draw(tileShape);
         }
     }

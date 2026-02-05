@@ -35,6 +35,9 @@ public:
     sf::Color getFloorColor() const { return floorColor; }
     sf::Color getWallColor() const { return wallColor; }
     float getFogIntensity() const { return fogIntensity; }
+    float getTileSizeFor2DMap() const { return tileSizeFor2DMap; }
+    float getRenderOffsetX() const { return renderOffsetX; }
+    float getRenderOffsetY() const { return renderOffsetY; }
     LevelData getLevelData() const {
         LevelData data;
         data.name = levelName;
@@ -58,10 +61,16 @@ private:
     int mapWidth;
     int mapHeight;
     int tileSize;
+    float tileSizeFor2DMap;
+    float renderOffsetX;
+    float renderOffsetY;
 
     std::vector<int> tiles;
     sf::Color skyColor;
     sf::Color floorColor;
     sf::Color wallColor;
     float fogIntensity;
+
+    void calculateOffset();
+    void drawLimits();
 };
