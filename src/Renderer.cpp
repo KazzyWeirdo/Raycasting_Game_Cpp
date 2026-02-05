@@ -18,7 +18,6 @@ void Renderer::renderUI(sf::RenderWindow& window, const std::vector<Button>& but
 
 void Renderer::renderCreator(sf::RenderWindow& window, const Player& player, const Map& map) {
     map.draw(window);
-    player.draw(window);
 }
 
 void Renderer::drawSkyAndFloor(sf::RenderWindow& window, const Map& m_worldMap) {

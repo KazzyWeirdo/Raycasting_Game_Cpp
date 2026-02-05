@@ -86,6 +86,16 @@ void Map::drawLimits()
     }
 }
 
+void Map::clearRespawnPoints() {
+    for (int y = 0; y < mapHeight; ++y) {
+        for (int x = 0; x < mapWidth; ++x) {
+            if (tiles[y * mapWidth + x] == 2) {
+                tiles[y * mapWidth + x] = 0;
+            }
+        }
+    }
+}
+
 void Map::calculateOffset()
 {
     float tileSizeW = Constants::WINDOW_WIDTH / mapWidth;
@@ -101,7 +111,6 @@ void Map::calculateOffset()
 
 void Map::draw(sf::RenderWindow& window) const
 {
-
     sf::RectangleShape tileShape(sf::Vector2f(tileSizeFor2DMap - 1, tileSizeFor2DMap - 1));
 
     for (int y = 0; y < mapHeight; ++y) {
@@ -109,8 +118,14 @@ void Map::draw(sf::RenderWindow& window) const
             int tile = getTile(x, y);
             if (tile == 1) {
                 tileShape.setFillColor(wallColor);
+                tileShape.setOutlineThickness(0.0f);
+            } else if (tile == 2) {
+                tileShape.setOutlineColor(sf::Color::Green); // Color for respawn points
+                tileShape.setOutlineThickness(1.0f);
+                tileShape.setFillColor(floorColor);
             } else {
                 tileShape.setFillColor(floorColor);
+                tileShape.setOutlineThickness(0.0f);
             }
             tileShape.setPosition(sf::Vector2f((x * tileSizeFor2DMap) + renderOffsetX, (y * tileSizeFor2DMap) + renderOffsetY));
             window.draw(tileShape);

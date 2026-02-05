@@ -73,7 +73,7 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
                 side = 1;
             }
 
-            if (map.getTile(mapX, mapY) > 0) hit = true;
+            if (map.getTile(mapX, mapY) == 1) hit = true;
         }
 
         // Calculate distance projected on camera direction

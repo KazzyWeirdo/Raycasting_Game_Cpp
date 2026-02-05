@@ -209,7 +209,6 @@ void Game::updateCreator() {
     if (dataChanged) {
         m_worldMap.loadLevel(levelData);
         m_player.loadFromLevelData(levelData);
-        m_player.draw(m_window);
     }
 
     if (ImGui::Button("Save Map", ImVec2(100, 30))) {
@@ -242,6 +241,8 @@ void Game::updateCreator() {
 
             if (mapX >= 0 && mapX < m_worldMap.getWidth() && mapY >= 0 && mapY < m_worldMap.getHeight()) {
                 if(placingPlayer) {
+                    m_worldMap.clearRespawnPoints();
+                    m_worldMap.setTile(mapX, mapY, 2); // Mark position as player spawn point
                     levelData.playerStartX = mapX;
                     levelData.playerStartY = mapY;
 

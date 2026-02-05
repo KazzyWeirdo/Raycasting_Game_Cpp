@@ -43,14 +43,14 @@ void Player::CheckCollision(const Map& map, sf::Vector2f newPosition) {
     int tileX = (int)(newPosition.x) / map.getTileSize();
     int tileY = (int)(position.y) / map.getTileSize();
 
-    if (map.getTile(tileX, tileY) == 0) { // 0 = empty space
+    if (map.getTile(tileX, tileY) != 1) { // 0 = empty space
         position.x = newPosition.x;
     }
 
     tileX = (int)(position.x) / map.getTileSize();
     tileY = (int)(newPosition.y) / map.getTileSize();
 
-    if (map.getTile(tileX, tileY) == 0) { // 0 = empty space
+    if (map.getTile(tileX, tileY) != 1) { // 0 = empty space
         position.y = newPosition.y;
     }
 }
@@ -59,17 +59,24 @@ void Player::loadFromLevelData(const LevelData& levelData) {
     position = {levelData.playerStartX, levelData.playerStartY};
 }
 
-void Player::draw(sf::RenderWindow& window) const {
-    sf::CircleShape playerShape(Constants::PLAYER_SIZE);
+void Player::draw(sf::RenderWindow& window, float offsetX, float offsetY, float scaleFactor) const {
+    sf::Vector2f visualPos;
+    visualPos.x = offsetX + (position.x * scaleFactor);
+    visualPos.y = offsetY + (position.y * scaleFactor);
+
+    float scaledSize = Constants::PLAYER_SIZE * scaleFactor;
+    if (scaledSize < 2.0f) scaledSize = 2.0f; // Minimum size for visibility
+
+    sf::CircleShape playerShape(scaledSize);
     playerShape.setFillColor(sf::Color::Yellow);
-    playerShape.setOrigin(sf::Vector2f(Constants::PLAYER_SIZE, Constants::PLAYER_SIZE));
-    playerShape.setPosition(position);
+    playerShape.setOrigin(sf::Vector2f(scaledSize, scaledSize));
+    playerShape.setPosition(visualPos);
 
     // Draw direction line
     sf::Vertex line[] =
     {
-        sf::Vertex{position, sf::Color::Red},
-        sf::Vertex{position + dir * 20.0f, sf::Color::Red}
+        sf::Vertex{visualPos, sf::Color::Red},
+        sf::Vertex{visualPos + dir * 20.0f * scaleFactor, sf::Color::Red}
     };
 
     window.draw(playerShape);

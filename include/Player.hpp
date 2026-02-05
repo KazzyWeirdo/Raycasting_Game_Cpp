@@ -8,7 +8,7 @@ public:
 
     void update(const Map& map, float dt);
 
-    void draw(sf::RenderWindow& window) const;
+    void draw(sf::RenderWindow& window, float offsetX, float offsetY, float scaleFactor) const;
 
     void loadFromLevelData(const LevelData& levelData);
 

@@ -31,6 +31,7 @@ public:
 
     void resizeMap(int newWidth, int newHeight);
     void draw(sf::RenderWindow& window) const;
+    void clearRespawnPoints();
 
     // Getters
     int getWidth() const { return mapWidth; }
