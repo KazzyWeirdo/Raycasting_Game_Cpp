@@ -5,3 +5,7 @@ build/CMakeFiles/Game.dir/main.cpp.obj
 build/CMakeFiles/Game.dir/main.cpp.obj.d
 build/CMakeFiles/Game.dir/objects.a
 build/Game.exe
+/build_release
+package_game.ps1
+RayCast_Demo.zip
+/RayCast_Demo

@@ -11,8 +11,8 @@ Game::Game()
     
     m_window.setFramerateLimit(Constants::FRAME_RATE);
 
-    if (!m_font.openFromFile("assets/arial.ttf")) {
-        std::cerr << "Error loading font 'assets/arial.ttf'" << std::endl;
+    if (!m_font.openFromFile("assets/fonts/arial.ttf")) {
+        std::cerr << "Error loading font 'assets/fonts/arial.ttf'" << std::endl;
         exit(-1);
     }
 
@@ -22,7 +22,7 @@ Game::Game()
 
     MapManager::ensureAssetsDirectory();
     refreshLevelList();
-    ImGui::SFML::Init(m_window);
+    (void)ImGui::SFML::Init(m_window);
 }
 
 void Game::run() {

@@ -6,14 +6,14 @@
 namespace fs = std::filesystem;
 
 void MapManager::ensureAssetsDirectory() {
-    if(!fs::exists("assets")) {
-        fs::create_directory("assets");
+    if(!fs::exists("assets/maps")) {
+        fs::create_directory("assets/maps");
     }
 }
 
 bool MapManager::saveMap(const std::string& filename, LevelData& data) {
     ensureAssetsDirectory();
-    std::ofstream file("assets/" + filename + ".map");
+    std::ofstream file("assets/maps/" + filename + ".map");
     if (!file.is_open()) {
         std::cerr << "Failed to open file for saving: " << filename << std::endl;
         return false;
@@ -36,7 +36,7 @@ bool MapManager::saveMap(const std::string& filename, LevelData& data) {
 
 LevelData MapManager::loadMap(const std::string& filename) {
     LevelData data;
-    std::ifstream file("assets/" + filename);
+    std::ifstream file("assets/maps/" + filename);
     if (!file.is_open()) {
         std::cerr << "Failed to open file for loading: " << filename << std::endl;
         return data;
@@ -73,7 +73,7 @@ std::vector<std::string> MapManager::listAvailableMaps() {
     std::vector<std::string> mapFiles;
     ensureAssetsDirectory();
 
-    for (const auto& entry : fs::directory_iterator("assets")) {
+    for (const auto& entry : fs::directory_iterator("assets/maps")) {
         if (entry.path().extension() == ".map") {
             mapFiles.push_back(entry.path().filename().string());
         }

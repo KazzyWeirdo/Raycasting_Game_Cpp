@@ -43,5 +43,18 @@ file(GLOB SOURCES "src/*.cpp")
 
 add_executable(Game main.cpp ${SOURCES})
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set_target_properties(Game PROPERTIES WIN32_EXECUTABLE ON)
+endif()
+
+# Copy assets to the output directory after building
+# This ensures that the assets are available in the same directory as the executable, which is necessary for the game to run correctly.
+if(EXISTS "${CMAKE_SOURCE_DIR}/assets")
+    add_custom_command(TARGET Game POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/assets" "$<TARGET_FILE_DIR:Game>/assets"
+    )
+endif()
+
 target_compile_features(Game PRIVATE cxx_std_17)
 target_link_libraries(Game PRIVATE SFML::Graphics ImGui-SFML::ImGui-SFML)
