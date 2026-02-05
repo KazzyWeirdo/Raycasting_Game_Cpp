@@ -24,6 +24,7 @@ public:
     int getTile(int x, int y) const;
     void setTile(int x, int y, int value);
 
+    void resizeMap(int newWidth, int newHeight);
     void draw(sf::RenderWindow& window) const;
 
     // Getters

@@ -1,5 +1,7 @@
 #include "../include/Game.hpp"
 #include "../include/MapManager.hpp"
+#include <imgui.h>
+#include <imgui-sfml.h>
 #include <iostream>
 
 Game::Game() 
@@ -21,6 +23,7 @@ Game::Game()
 
     MapManager::ensureAssetsDirectory();
     refreshLevelList();
+    ImGui::SFML::Init(m_window);
 }
 
 void Game::run() {
@@ -34,6 +37,7 @@ void Game::run() {
 
 void Game::processEvents() {
     while (const std::optional event = m_window.pollEvent()) {
+        ImGui::SFML::ProcessEvent(m_window, *event);
         if (event->is<sf::Event::Closed>()) {
             m_window.close();
         }
@@ -53,6 +57,7 @@ void Game::processEvents() {
 }
 
 void Game::update(float dt) {
+    ImGui::SFML::Update(m_window, m_clock.restart());
     switch(m_state) {
         case GameState::MENU:
             updateMenu();
@@ -80,7 +85,7 @@ void Game::render() {
             m_renderer.renderCreator(m_window, m_player, m_worldMap);
             break;
     }
-
+    ImGui::SFML::Render(m_window);
     m_window.display();
 }
 
@@ -134,24 +139,86 @@ void Game::updateMenu() {
 }
 
 void Game::updateCreator() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-        LevelData dataToSave = m_worldMap.getLevelData();
+    LevelData levelData = m_worldMap.getLevelData();
+    bool dataChanged = false;
 
-        if (MapManager::saveMap(dataToSave.name, dataToSave)) {
-            std::cout << "Map saved as '" << dataToSave.name << "'" << std::endl;
-        }
-        sf::sleep(sf::milliseconds(200)); 
+    ImGui::Begin("Level Settings");
+
+    static char nameBuffer[128];
+    if (ImGui::IsWindowAppearing()) strcpy_s(nameBuffer, levelData.name.c_str());
+    if (ImGui::InputText("Level Name", nameBuffer, sizeof(nameBuffer))) {
+        levelData.name = nameBuffer;
+        dataChanged = true;
     }
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-        int mapX = mousePos.x / Constants::TILE_SIZE;
-        int mapY = mousePos.y / Constants::TILE_SIZE;
+    int newW = levelData.width;
+    int newH = levelData.height;
+    ImGui::Text("Map Size:");
+    if (ImGui::InputInt("Width", &newW, 5, 5)) m_worldMap.resizeMap(newW, levelData.height);
+    if (ImGui::InputInt("Height", &newH, 5, 5)) m_worldMap.resizeMap(levelData.width, newH);
 
-        if (mapX >= 0 && mapX < m_worldMap.getWidth() && mapY >= 0 && mapY < m_worldMap.getHeight()) {
-            int tileValue = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) ? 0 : 1;
-            if (m_worldMap.getTile(mapX, mapY) != tileValue) {
-                m_worldMap.setTile(mapX, mapY, tileValue);
+    ImGui::Separator();
+
+    ImGui::Text("Visuals:");
+
+    float floorColor[3] = {levelData.floorR/255.0f, levelData.floorG/255.0f, levelData.floorB/255.0f};
+    if (ImGui::ColorEdit3("Floor Color", floorColor)) {
+        levelData.floorR = (std::uint8_t)(floorColor[0]*255);
+        levelData.floorG = (std::uint8_t)(floorColor[1]*255);
+        levelData.floorB = (std::uint8_t)(floorColor[2]*255);
+        dataChanged = true;
+    }
+
+    float skyColor[3] = {levelData.skyR/255.0f, levelData.skyG/255.0f, levelData.skyB/255.0f};
+    if (ImGui::ColorEdit3("Sky Color", skyColor)) {
+        levelData.skyR = (std::uint8_t)(skyColor[0]*255);
+        levelData.skyG = (std::uint8_t)(skyColor[1]*255);
+        levelData.skyB = (std::uint8_t)(skyColor[2]*255);
+        dataChanged = true;
+    }
+
+    float wallsColor[3] = {levelData.wallR/255.0f, levelData.wallG/255.0f, levelData.wallB/255.0f};
+    if (ImGui::ColorEdit3("Walls Color", wallsColor)) {
+        levelData.wallR = (std::uint8_t)(wallsColor[0]*255);
+        levelData.wallG = (std::uint8_t)(wallsColor[1]*255);
+        levelData.wallB = (std::uint8_t)(wallsColor[2]*255);
+        dataChanged = true;
+    }
+
+    ImGui::Separator();
+
+    if (dataChanged) {
+        m_worldMap.loadLevel(levelData);
+    }
+
+    if (ImGui::Button("Save Map", ImVec2(100, 30))) {
+        if (MapManager::saveMap(levelData.name, levelData)) {
+            std::cout << "Map saved as '" << levelData.name << "'" << std::endl;
+        }
+         sf::sleep(sf::milliseconds(200));
+    }
+
+    ImGui::End();
+
+    if (!ImGui::GetIO().WantCaptureMouse) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+
+            if (MapManager::saveMap(levelData.name, levelData)) {
+                std::cout << "Map saved as '" << levelData.name << "'" << std::endl;
+            }
+            sf::sleep(sf::milliseconds(200)); 
+        }
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+            int mapX = mousePos.x / Constants::TILE_SIZE;
+            int mapY = mousePos.y / Constants::TILE_SIZE;
+
+            if (mapX >= 0 && mapX < m_worldMap.getWidth() && mapY >= 0 && mapY < m_worldMap.getHeight()) {
+                int tileValue = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) ? 0 : 1;
+                if (m_worldMap.getTile(mapX, mapY) != tileValue) {
+                    m_worldMap.setTile(mapX, mapY, tileValue);
+                }
             }
         }
     }

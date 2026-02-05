@@ -27,6 +27,7 @@ Map::Map() {
 
 void Map::loadLevel(const LevelData& levelData)
 {
+    levelName = levelData.name;
     mapWidth = levelData.width;
     mapHeight = levelData.height;
     tiles = levelData.tiles;
@@ -34,6 +35,21 @@ void Map::loadLevel(const LevelData& levelData)
     floorColor = sf::Color(levelData.floorR, levelData.floorG, levelData.floorB);
     wallColor = sf::Color(levelData.wallR, levelData.wallG, levelData.wallB);
     fogIntensity = levelData.fogIntensity;
+}
+
+void Map::resizeMap(int newWidth, int newHeight)
+{
+    std::vector<int> newTiles(newWidth * newHeight, 0);
+
+    for (int y = 0; y < std::min(mapHeight, newHeight); ++y) {
+        for (int x = 0; x < std::min(mapWidth, newWidth); ++x) {
+            newTiles[y * newWidth + x] = getTile(x, y);
+        }
+    }
+
+    mapWidth = newWidth;
+    mapHeight = newHeight;
+    tiles = std::move(newTiles);
 }
 
 int Map::getTile(int x, int y) const
