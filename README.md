@@ -41,4 +41,4 @@ A *Wolfenstein 3D* style Raycasting engine built from scratch using modern C++. 
 5.  **Save Map:** Save changes to the level file.
 
 
-You can play with this game engine on the releases section!
+You can play with this game engine on the releases section inside the repository!
