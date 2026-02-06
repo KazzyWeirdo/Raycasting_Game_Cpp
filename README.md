@@ -30,7 +30,6 @@ A *Wolfenstein 3D* style Raycasting engine built from scratch using modern C++. 
 | :--- | :--- |
 | **W / A / S / D** | Move |
 | **Arrows <- ->** | Rotate Camera |
-| **M** | Toggle Map Editor |
 | **ESC** | Exit |
 
 ### Editor Mode
