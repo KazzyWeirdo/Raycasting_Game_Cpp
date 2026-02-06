@@ -16,7 +16,7 @@ A *Wolfenstein 3D* style Raycasting engine built from scratch using modern C++. 
 * **Save System:** Map serialization to save and load custom levels.
 * **Dependency Management:** Uses **CMake FetchContent** to automatically download and compile SFML and ImGui.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Language:** C++17
 * **Graphics:** [SFML 3.0.1](https://www.sfml-dev.org/)
@@ -29,7 +29,7 @@ A *Wolfenstein 3D* style Raycasting engine built from scratch using modern C++. 
 | Key | Action |
 | :--- | :--- |
 | **W / A / S / D** | Move |
-| **Arrows ⬅️ ➡️** | Rotate Camera |
+| **Arrows <- ->** | Rotate Camera |
 | **M** | Toggle Map Editor |
 | **ESC** | Exit |
 
