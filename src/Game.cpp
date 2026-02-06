@@ -49,6 +49,7 @@ void Game::processEvents() {
                 handleGameInput(*event);
                 break;
             case GameState::CREATOR:
+                m_worldMap = Map(); // Reset map to avoid conflicts with creator
                 handleCreatorInput(*event);
                 break;
         }
