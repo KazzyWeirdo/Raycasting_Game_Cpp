@@ -49,7 +49,6 @@ void Game::processEvents() {
                 handleGameInput(*event);
                 break;
             case GameState::CREATOR:
-                m_worldMap = Map(); // Reset map to avoid conflicts with creator
                 handleCreatorInput(*event);
                 break;
         }
@@ -106,6 +105,7 @@ void Game::handleMenuInput(const sf::Event& event) {
         m_window.close();
     }
     if (m_creatorButton.isClicked(mousePos)) {
+        m_worldMap = Map(); // Reset map to avoid conflicts with creator
         m_state = GameState::CREATOR;
     }
 }
