@@ -30,14 +30,15 @@ A *Wolfenstein 3D* style Raycasting engine built from scratch using modern C++. 
 | :--- | :--- |
 | **W / A / S / D** | Move |
 | **Arrows <- ->** | Rotate Camera |
-| **ESC** | Exit |
+| **ESC** | Go Back to Menu |
 
-### Editor Mode
+### Creator Mode
 2.  **Left Click:** Place Wall.
 3.  **Right Click:** Remove Wall (Place Floor).
 4.  **Set Spawn:** Select the tool and click on the map to define the player start position (marked in green).
 5.  **Save Map:** Save changes to the level file.
 6.  **CTRL + S:** Shortcut to save changes to the level file.
+7.  **ESC:** Exit the Creator to go back to the Menu.
 
 
 You can play with this game engine on the releases section inside the repository!
