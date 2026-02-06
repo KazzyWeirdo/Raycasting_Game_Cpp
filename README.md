@@ -14,7 +14,6 @@ A *Wolfenstein 3D* style Raycasting engine built from scratch using modern C++. 
     * Dynamic placement of walls and floors.
     * Visual configuration of the player's start position (Spawn Point).
 * **Save System:** Map serialization to save and load custom levels.
-* **Dependency Management:** Uses **CMake FetchContent** to automatically download and compile SFML and ImGui.
 
 ## Tech Stack
 
