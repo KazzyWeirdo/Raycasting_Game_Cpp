@@ -140,6 +140,7 @@ void LevelCreator::handleInput(sf::RenderWindow& window, Map& map, LevelData& le
             
             if(m_placingPlayer) {
                 // PLAYER LOGIC
+                if (map.getTile(mapX, mapY) == 1) return; // Can't place player on a wall
                 map.clearRespawnPoints();
                 map.setTile(mapX, mapY, 2); 
                 float realTileSize = Constants::TILE_SIZE;
