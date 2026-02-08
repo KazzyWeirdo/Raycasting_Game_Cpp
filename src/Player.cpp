@@ -59,6 +59,9 @@ void Player::loadFromLevelData(const LevelData& levelData) {
     position = {levelData.playerStartX, levelData.playerStartY};
 }
 
+/*
+    For dev purposes, draws a simple circle representing the player and a line indicating the direction they're facing. This is not used in the final raycasting rendering but can be helpful for debugging movement and rotation logic.    
+
 void Player::draw(sf::RenderWindow& window, float offsetX, float offsetY, float scaleFactor) const {
     sf::Vector2f visualPos;
     visualPos.x = offsetX + (position.x * scaleFactor);
@@ -81,4 +84,4 @@ void Player::draw(sf::RenderWindow& window, float offsetX, float offsetY, float 
 
     window.draw(playerShape);
     window.draw(line, 2, sf::PrimitiveType::Lines);
-}
+}*/

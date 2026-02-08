@@ -4,7 +4,7 @@
 #include <iostream>
 
 Game::Game() 
-    : m_window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), Constants::WINDOW_TITLE),
+    : m_window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), Constants::WINDOW_TITLE, sf::Style::Titlebar | sf::Style::Close),
       m_state(GameState::MENU),
       m_exitButton(600.0f, 100.0f, 400.0f, 50.0f, "Exit", m_font),
       m_creatorButton(600.0f, 220.0f, 400.0f, 50.0f, "Map Creator", m_font) {
