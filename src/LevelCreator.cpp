@@ -3,6 +3,7 @@
 #include <imgui.h>
 #include <cstring>
 #include <iostream>
+#include <algorithm>
 
 LevelCreator::LevelCreator() : m_placingPlayer(false) {
     std::memset(m_nameBuffer, 0, sizeof(m_nameBuffer));
@@ -41,8 +42,22 @@ void LevelCreator::handleGui(Map& map, LevelData& levelData, bool& dataChanged) 
     int newW = levelData.width;
     int newH = levelData.height;
     ImGui::Text("Map Size:");
-    if (ImGui::InputInt("Width", &newW, 5, 5)) map.resizeMap(newW, levelData.height);
-    if (ImGui::InputInt("Height", &newH, 5, 5)) map.resizeMap(levelData.width, newH);
+
+    if (ImGui::InputInt("Width", &newW, 5, 5)) {
+        newW = std::clamp(newW, 5, 50);
+        if (newW != levelData.width) {
+            levelData.width = newW;
+            map.resizeMap(newW, levelData.height);
+        }
+    }
+
+    if (ImGui::InputInt("Height", &newH, 5, 5)) {
+        newH = std::clamp(newH, 5, 50);
+        if (newH != levelData.height) {
+            levelData.height = newH;
+            map.resizeMap(levelData.width, newH);
+        }
+    }
 
     ImGui::Separator();
 
@@ -76,6 +91,7 @@ void LevelCreator::handleGui(Map& map, LevelData& levelData, bool& dataChanged) 
     ColorEdit("Walls Color", levelData.wallR, levelData.wallG, levelData.wallB);
 
     if (ImGui::InputFloat("Fog Distance", &levelData.fogIntensity, 1, 1)) {
+        levelData.fogIntensity = std::clamp(levelData.fogIntensity, 0.0f, 25.0f);
         dataChanged = true;
     }
 
