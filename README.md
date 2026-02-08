@@ -41,5 +41,7 @@ A *Wolfenstein 3D* style Raycasting engine built from scratch using modern C++. 
 
 
 You can play with this game engine on the releases section inside the repository!
+
 **ATTENTION:** You may get a warning from Windows that the application is from an unknown author. It's fine! I'm not trying to get inside nor damage your PC.
+
 You can click "More Information" and "Execute anyways", you should be able to interact with the engine without any problem afterwards!
