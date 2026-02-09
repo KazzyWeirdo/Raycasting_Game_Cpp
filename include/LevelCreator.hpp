@@ -10,10 +10,10 @@ private:
     bool m_placingPlayer;
     
     void handleGui(Map& map, LevelData& data, bool& dataChanged);
-    void handleInput(sf::RenderWindow& window, Map& map, LevelData& data);
+    void handleInput(sf::RenderWindow& window, Map& map, Player& player, LevelData& data);
 
 public:
     LevelCreator();
     
-    void update(sf::RenderWindow& window, Map& map);
+    void update(sf::RenderWindow& window, Map& map, Player& player);
 };
