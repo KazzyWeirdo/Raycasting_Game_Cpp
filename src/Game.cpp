@@ -11,8 +11,8 @@ Game::Game()
     
     m_window.setFramerateLimit(Constants::FRAME_RATE);
 
-    if (!m_font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) {
-        std::cerr << "C:\\Windows\\Fonts\\arial.ttf'" << std::endl;
+    if (!m_font.openFromFile("assets/fonts/arial.ttf")) {
+        std::cerr << "assets/fonts/arial.ttf" << std::endl;
         exit(-1);
     }
 
