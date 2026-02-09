@@ -7,42 +7,33 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
 
     sf::VertexArray walls(sf::PrimitiveType::Lines);
 
-    // Raycasting Loop
-
     for (int ray = 0; ray < Constants::WINDOW_WIDTH; ++ray) {
-
-        // Position of where we are in camera space
 
         float cameraX = 2 * ray / (float)Constants::WINDOW_WIDTH - 1;
 
-        // Ray direction
-
         float rayDirX = player.dir.x + player.plane.x * cameraX;
         float rayDirY = player.dir.y + player.plane.y * cameraX;
-
-        // Map position
 
         int mapX = (int)player.getPosition().x / map.getTileSize();
         int mapY = (int)player.getPosition().y / map.getTileSize();
 
         // Length of ray from current position to next x or y-side
-
         float sideDistX;
         float sideDistY;
 
         // Length of ray from one x or y-side to next x or y-side
+        // These are derived from the ray direction vector and are used to calculate how much to increase sideDistX or sideDistY when we step in x or y direction
         float deltaDistX = (rayDirX == 0) ? 1e30 : std::abs(1.0f / rayDirX);
         float deltaDistY = (rayDirY == 0) ? 1e30 : std::abs(1.0f / rayDirY);
 
-        float perpWallDist; // Perpendicular distance to wall
+        float perpWallDist;
         int stepX;
         int stepY;
 
         bool hit = false;
-        int side;
+        int side; // hits North-South wall (0) or East-West wall (1)
 
-        // Calculate step and initial sideDist
-
+        // We calculate the step the player takes in the grid and the initial sideDistX and sideDistY based on the ray direction. This sets us up for the DDA algorithm to efficiently step through the grid squares.
         if (rayDirX < 0) {
             stepX = -1;
             sideDistX = (player.getPosition().x / map.getTileSize() - mapX) * deltaDistX;
@@ -59,7 +50,7 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
             sideDistY = (mapY + 1.0 - player.getPosition().y / map.getTileSize()) * deltaDistY;
         }
 
-        // Perform DDA
+        // Perform DDA: jump to next map square, either in x-direction or y-direction, until we hit a wall
 
         int maxDepth = 50;
         while (!hit && maxDepth-- > 0) {
@@ -76,26 +67,26 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
             if (map.getTile(mapX, mapY) == 1) hit = true;
         }
 
-        // Calculate distance projected on camera direction
+        // Calculate distance projected on camera direction to avoid fish-eye effect
 
         if (side == 0)
             perpWallDist = (sideDistX - deltaDistX);
         else
             perpWallDist = (sideDistY - deltaDistY);
 
-        // Calculate height of line to draw on screen
-
         int lineHeight = (int)(Constants::WINDOW_HEIGHT / perpWallDist);
 
-        // Calculate lowest and highest pixel to fill in current stripe
+        // Clamp values to set screen limits
+
+        // Calculate lowest and highest pixel to fill in current stripe (centrally aligned), then we define the screen limits
 
         int drawStart = -lineHeight / 2 + Constants::WINDOW_HEIGHT / 2;
         int drawEnd = lineHeight / 2 + Constants::WINDOW_HEIGHT / 2;
 
-        // Clamp values
-
         if (drawStart < 0) drawStart = 0;
         if (drawEnd >= Constants::WINDOW_HEIGHT) drawEnd = Constants::WINDOW_HEIGHT - 1;
+
+        // --- Coloring and Fog ---
 
         sf::Color color = map.getWallColor();
         if (side == 1) {// Darker for y-side walls
@@ -120,14 +111,4 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         walls.append(sf::Vertex{sf::Vector2f(ray, drawEnd), finalColor});
     }
      window.draw(walls);
-}
-
-float Raycaster::normalizeAngle(float angle) {
-    if (angle < 0) {
-        angle += 2 * Constants::PI;
-    }
-    if (angle > 2 * Constants::PI) {
-        angle -= 2 * Constants::PI;
-    }
-    return angle;
 }

@@ -6,7 +6,4 @@
 class Raycaster {
     public:
     void draw(sf::RenderWindow &window, const Map &map, const Player &player);
-
-    private:
-    float normalizeAngle(float angle);
 };
