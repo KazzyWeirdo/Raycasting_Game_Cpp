@@ -10,7 +10,7 @@ void Renderer::renderScene(sf::RenderWindow& window, const Player& player, const
 
 void Renderer::renderUI(sf::RenderWindow& window, const std::vector<Button>& buttons, 
     const Button& exitButton, const Button& creatorButton) {
-    window.clear(sf::Color(0, 50, 50)); // Fondo oscuro para el menú
+    window.clear(Constants::MENU_BACKGROUND_COLOR);
     for (auto& button : buttons) button.draw(window);
     exitButton.draw(window);
     creatorButton.draw(window);
