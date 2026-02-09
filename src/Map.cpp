@@ -17,16 +17,7 @@ Map::Map() {
     floorColor = sf::Color(Constants::DEFAULT_FLOOR_R, Constants::DEFAULT_FLOOR_G, Constants::DEFAULT_FLOOR_B);
     wallColor = sf::Color(Constants::DEFAULT_WALL_R, Constants::DEFAULT_WALL_G, Constants::DEFAULT_WALL_B);
     fogIntensity = Constants::DEFAULT_FOG_DISTANCE;
-
-    for(int x = 0; x < mapWidth; ++x) {
-        tiles[x] = 1; // Top wall
-        tiles[(mapHeight - 1) * mapWidth + x] = 1; // Bottom wall
-    }
-
-    for(int y = 0; y < mapHeight; ++y) {
-        tiles[y * mapWidth] = 1; // Left wall
-        tiles[y * mapWidth + (mapWidth - 1)] = 1; // Right wall
-    }
+    drawLimits();
     calculateOffset();
 }
 
@@ -77,12 +68,14 @@ void Map::setTile(int x, int y, int value)
 
 void Map::drawLimits()
 {
-        for (int y = 0; y < mapHeight; ++y) {
-            for (int x = 0; x < mapWidth; ++x) {
-                if (x == mapWidth -1 || y == mapHeight -1 || x == 0 || y == 0) {
-                    tiles[y * mapWidth + x] = 1;
-                }
-            }
+    for(int x = 0; x < mapWidth; ++x) {
+        tiles[x] = 1; // Top wall
+        tiles[(mapHeight - 1) * mapWidth + x] = 1; // Bottom wall
+    }
+
+    for(int y = 0; y < mapHeight; ++y) {
+        tiles[y * mapWidth] = 1; // Left wall
+        tiles[y * mapWidth + (mapWidth - 1)] = 1; // Right wall
     }
 }
 
