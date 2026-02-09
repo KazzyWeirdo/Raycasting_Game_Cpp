@@ -33,6 +33,8 @@ namespace Constants {
     constexpr std::uint8_t DEFAULT_WALL_G = 100;
     constexpr std::uint8_t DEFAULT_WALL_B = 100;
 
+    constexpr sf::Color RESPAWN_POINT_COLOR = sf::Color::Green;
+
     // --- Player Configuration  ---
     constexpr float PLAYER_SPEED = 5.0f;
     constexpr float PLAYER_ROTATION_SPEED = 0.1f;
@@ -53,6 +55,9 @@ namespace Constants {
     constexpr std::uint8_t COLOR_TEXT_BUTTON_B = 255;
 
     // --- Raycasting Configuration ---
-    constexpr int FOV = 60;                         // Field of View in degrees
+    constexpr int FOV = 60;                         // Field of View in degreesç
+
+    // -- Menu Configuration ---
+    constexpr sf::Color MENU_BACKGROUND_COLOR = sf::Color(30, 30, 30);
 
 }

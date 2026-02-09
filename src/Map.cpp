@@ -120,7 +120,7 @@ void Map::draw(sf::RenderWindow& window) const
                 tileShape.setFillColor(wallColor);
                 tileShape.setOutlineThickness(0.0f);
             } else if (tile == 2) {
-                tileShape.setOutlineColor(sf::Color::Green); // Color for respawn points
+                tileShape.setOutlineColor(Constants::RESPAWN_POINT_COLOR);
                 tileShape.setOutlineThickness(-1.0f);
                 tileShape.setFillColor(floorColor);
             } else {
