@@ -39,9 +39,41 @@ A *Wolfenstein 3D* style Raycasting engine built from scratch using modern C++. 
 6.  **CTRL + S:** Shortcut to save changes to the level file.
 7.  **ESC:** Exit the Creator to go back to the Menu.
 
-
+### How to run
 You can play with this game engine on the releases section inside the repository!
 
 **ATTENTION:** You may get a warning from Windows that the application is from an unknown author. It's fine! I'm not trying to get inside nor damage your PC.
 
 You can click "More Information" and "Execute anyways", you should be able to interact with the engine without any more problems!
+
+### Environment Prerequisites
+- Visual Studio Code || Extensions: ``C/C++`` ``CMake Tools`` ``Error Lens (Optional)``
+- MSYS2 MSYS
+
+### Getting Started
+
+**Clone repository**
+
+```
+https://github.com/KazzyWeirdo/Raycasting_Game_Cpp.git
+```
+
+**Get the compiler**
+
+If you have installed MSYS2 MSYS then open it and copy the next command:
+
+```
+pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-gdb mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-make
+```
+
+Add to your environment variable (into PATH) the next folder path:
+
+```
+C:\msys64\ucrt64\bin
+```
+
+**First Build**
+
+When you create your first build, VS Code will ask you to select a compiler. Use the one called ``GCC ... UCRT64``
+
+You should have no problems building the project afterwards!
