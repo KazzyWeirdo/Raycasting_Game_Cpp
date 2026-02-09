@@ -55,6 +55,10 @@ void Player::CheckCollision(const Map& map, sf::Vector2f newPosition) {
     }
 }
 
+void Player::setPosition(float x, float y) {
+    position = {x, y};
+}
+
 void Player::loadFromLevelData(const LevelData& levelData) {
     position = {levelData.playerStartX, levelData.playerStartY};
 }

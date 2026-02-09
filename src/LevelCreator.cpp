@@ -9,13 +9,15 @@ LevelCreator::LevelCreator() : m_placingPlayer(false) {
     std::memset(m_nameBuffer, 0, sizeof(m_nameBuffer));
 }
 
-void LevelCreator::update(sf::RenderWindow& window, Map& map) {
+void LevelCreator::update(sf::RenderWindow& window, Map& map, Player& player) {
     LevelData levelData = map.getLevelData();
+    levelData.playerStartX = player.getPosition().x;
+    levelData.playerStartY = player.getPosition().y;
     bool dataChanged = false;
 
     handleGui(map, levelData, dataChanged);
 
-    handleInput(window, map, levelData);
+    handleInput(window, map, player, levelData);
 
     if (dataChanged) {
         map.loadLevel(levelData);
@@ -113,7 +115,7 @@ void LevelCreator::handleGui(Map& map, LevelData& levelData, bool& dataChanged) 
     ImGui::End();
 }
 
-void LevelCreator::handleInput(sf::RenderWindow& window, Map& map, LevelData& levelData) {
+void LevelCreator::handleInput(sf::RenderWindow& window, Map& map, Player& player, LevelData& levelData) {
     if (ImGui::GetIO().WantCaptureMouse) return;
 
     // CTRL + S
@@ -139,7 +141,6 @@ void LevelCreator::handleInput(sf::RenderWindow& window, Map& map, LevelData& le
         if (mapX >= 0 && mapX < map.getWidth() && mapY >= 0 && mapY < map.getHeight()) {
             
             if(m_placingPlayer) {
-                // PLAYER LOGIC
                 if (map.getTile(mapX, mapY) == 1) return; // Can't place player on a wall
                 map.clearRespawnPoints();
                 map.setTile(mapX, mapY, 2); 
@@ -148,15 +149,12 @@ void LevelCreator::handleInput(sf::RenderWindow& window, Map& map, LevelData& le
                 // Centering the spawn position
                 float worldX = (mapX * realTileSize) + (realTileSize / 2.0f);
                 float worldY = (mapY * realTileSize) + (realTileSize / 2.0f);
-                
-                levelData.playerStartX = worldX; 
-                levelData.playerStartY = worldY;
+
+                player.setPosition(worldX, worldY);
             } else {
-                // WALL LOGIC
                 int tileValue = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) ? 0 : 1;
                 if (map.getTile(mapX, mapY) != tileValue) {
                     map.setTile(mapX, mapY, tileValue);
-                    // No need for dataChanged=true here because setTile already updates the map visually
                 }
             }
         }

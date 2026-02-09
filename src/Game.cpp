@@ -139,7 +139,7 @@ void Game::updateMenu() {
 }
 
 void Game::updateCreator() {
-    m_levelCreator.update(m_window, m_worldMap);
+    m_levelCreator.update(m_window, m_worldMap, m_player);
 }
 
 // --- Utility Methods ---
@@ -160,6 +160,7 @@ void Game::loadLevel(const std::string& levelName) {
     if (levelData.width > 0) {
         m_worldMap.loadLevel(levelData);
         m_player = Player(); // Reset player
+        m_player.loadFromLevelData(levelData);
         m_state = GameState::GAME;
     } else {
         std::cerr << "Failed to load map: " << levelName << std::endl;

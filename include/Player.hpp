@@ -15,6 +15,9 @@ public:
     // Getters
     sf::Vector2f getPosition() const { return position; }
 
+    // Setters
+    void setPosition(const float x, float y);
+
     // For raycasting
     sf::Vector2f dir;
     sf::Vector2f plane;
