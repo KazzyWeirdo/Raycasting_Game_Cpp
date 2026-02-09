@@ -81,7 +81,7 @@ void Game::render() {
             m_renderer.renderScene(m_window, m_player, m_worldMap);
             break;
         case GameState::CREATOR:
-            m_renderer.renderCreator(m_window, m_player, m_worldMap);
+            m_renderer.renderCreator(m_window, m_worldMap);
             break;
     }
     ImGui::SFML::Render(m_window);

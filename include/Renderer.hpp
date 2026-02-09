@@ -13,7 +13,7 @@ public:
     void renderUI(sf::RenderWindow& window, const std::vector<Button>& buttons, 
         const Button& exitButton, const Button& creatorButton);
 
-    void renderCreator(sf::RenderWindow& window, const Player& player, const Map& map);
+    void renderCreator(sf::RenderWindow& window, const Map& map);
 
     private:
 
