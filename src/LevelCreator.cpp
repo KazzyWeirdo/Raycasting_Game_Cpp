@@ -153,7 +153,7 @@ void LevelCreator::handleInput(sf::RenderWindow& window, Map& map, Player& playe
                 player.setPosition(worldX, worldY);
             } else {
                 int tileValue = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) ? 0 : 1;
-                if (map.getTile(mapX, mapY) != tileValue) {
+                if (map.getTile(mapX, mapY) != tileValue && map.getTile(mapX, mapY) != 2) { // Don't overwrite player spawn
                     map.setTile(mapX, mapY, tileValue);
                 }
             }
