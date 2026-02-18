@@ -44,6 +44,7 @@ class Game {
         sf::RenderWindow m_window;
         sf::Font m_font;
         sf::Clock m_clock;
+        sf::Texture m_wall_Texture;
         GameState m_state;
 
         Map m_worldMap;

@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <iostream>
 
-void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &player) {
+void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &player, const sf::Texture &texture) {
 
     sf::VertexArray walls(sf::PrimitiveType::Lines);
 
@@ -131,8 +131,33 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         finalColor.g = (std::uint8_t)(color.g * wallFactor + map.getSkyColor().g * fog);
         finalColor.b = (std::uint8_t)(color.b * wallFactor + map.getSkyColor().b * fog);
 
-        walls.append(sf::Vertex{sf::Vector2f(ray, drawStart), finalColor});
-        walls.append(sf::Vertex{sf::Vector2f(ray, drawEnd), finalColor});
+        /*
+            In order to not get a weird visual effect where the textures
+            stretch when you get close to the wall, we need to calculate
+            how much we increase the coordinate per screen pixel and the 
+            initial position of said texture.
+
+            This doesn't respect the fog settings and color, getting close
+            will slowly change the color of the textures. Only a darker
+            fog will work as intended.
+        */
+
+        float step = 1.0f * texSize / lineHeight;
+        float texPos = (drawStart - Constants::WINDOW_HEIGHT / 2 + lineHeight / 2) * step;
+
+        walls.append(sf::Vertex{sf::Vector2f(ray, drawStart), finalColor, sf::Vector2f(texX, texPos)});
+        walls.append(sf::Vertex{sf::Vector2f(ray, drawEnd), finalColor, sf::Vector2f(texX, texPos + (drawEnd - drawStart) * step)});
+        
     }
-     window.draw(walls);
+
+        /*
+            Testing how the texture looks in the game,
+            this should be change for better scability
+            and for respecting OOP programming.
+        */
+
+        sf::RenderStates states;
+        states.texture = &texture;
+
+     window.draw(walls, states);
 }

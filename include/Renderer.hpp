@@ -8,7 +8,7 @@
 class Renderer {
 public:
     Renderer();
-    void renderScene(sf::RenderWindow& window, const Player& player, const Map& map);
+    void renderScene(sf::RenderWindow& window, const Player& player, const Map& map, const sf::Texture &texture);
 
     void renderUI(sf::RenderWindow& window, const std::vector<Button>& buttons, 
         const Button& exitButton, const Button& creatorButton);
