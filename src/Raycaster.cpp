@@ -2,6 +2,7 @@
 #include "../include/Constant.hpp"
 #include <cmath>
 #include <algorithm>
+#include <iostream>
 
 void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &player) {
 
@@ -31,7 +32,7 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         int stepY;
 
         bool hit = false;
-        int side; // hits North-South wall (0) or East-West wall (1)
+        int side; // hits North-South wall (1) or East-West wall (0)
 
         // We calculate the step the player takes in the grid and the initial sideDistX and sideDistY based on the ray direction. This sets us up for the DDA algorithm to efficiently step through the grid squares.
         if (rayDirX < 0) {
@@ -85,6 +86,20 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
 
         if (drawStart < 0) drawStart = 0;
         if (drawEnd >= Constants::WINDOW_HEIGHT) drawEnd = Constants::WINDOW_HEIGHT - 1;
+
+        /*
+        In order to draw textures in a wall:
+        We need to calculate where the ray hits in a wall. The value of this value
+        must be between 1 and 0 to determine which exact percentatge has hit:
+        0.0 = left corner
+        0.5 = center
+        0.9 = right corner
+        */
+
+        float wallX;
+        if (side == 0) wallX = (player.getPosition().y/ map.getTileSize()) + (perpWallDist * rayDirY);
+        else           wallX = (player.getPosition().x / map.getTileSize()) + (perpWallDist * rayDirX);
+        wallX -= floor((wallX));
 
         // --- Coloring and Fog ---
 

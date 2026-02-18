@@ -36,7 +36,7 @@ public:
     // Getters
     int getWidth() const { return mapWidth; }
     int getHeight() const { return mapHeight; }
-    int getTileSize() const { return tileSize; }
+    float getTileSize() const { return tileSize; }
     sf::Color getSkyColor() const { return skyColor; }
     sf::Color getFloorColor() const { return floorColor; }
     sf::Color getWallColor() const { return wallColor; }
@@ -66,7 +66,7 @@ private:
     std::string levelName;
     int mapWidth;
     int mapHeight;
-    int tileSize;
+    float tileSize;
     float tileSizeFor2DMap;
     float renderOffsetX;
     float renderOffsetY;
