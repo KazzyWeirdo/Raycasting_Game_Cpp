@@ -32,7 +32,7 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         int stepY;
 
         bool hit = false;
-        int side; // hits North-South wall (1) or East-West wall (0)
+        int side; // hits North-South wall (0) or East-West wall (1)
 
         // We calculate the step the player takes in the grid and the initial sideDistX and sideDistY based on the ray direction. This sets us up for the DDA algorithm to efficiently step through the grid squares.
         if (rayDirX < 0) {
@@ -94,12 +94,21 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         0.0 = left corner
         0.5 = center
         0.9 = right corner
+        By multiplying wallX with the size of the texture we get the exact Xcoordinate
+        We now need to inverse this coordinate in certain direction so we don't have
+        mirror effect
         */
 
         float wallX;
         if (side == 0) wallX = (player.getPosition().y/ map.getTileSize()) + (perpWallDist * rayDirY);
         else           wallX = (player.getPosition().x / map.getTileSize()) + (perpWallDist * rayDirX);
         wallX -= floor((wallX));
+
+        int texSize = 64; // Supposed size of the texture, it's a test variable we simulate 64x64 size.
+        int texX = static_cast<int>(wallX * static_cast<float>(texSize));
+
+        if (side == 0 && rayDirX > 0) texX = texSize - texX - 1;
+        if (side == 1 && rayDirY < 0) texX = texSize - texX - 1;
 
         // --- Coloring and Fog ---
 
