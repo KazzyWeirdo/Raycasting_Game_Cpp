@@ -5,10 +5,7 @@
 
 Game::Game() 
     : m_window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), Constants::WINDOW_TITLE, sf::Style::Titlebar | sf::Style::Close),
-    m_wall_Texture("assets/textures/Brick_Wall.png"),
-      m_state(GameState::MENU),
-      m_exitButton(600.0f, 100.0f, 400.0f, 50.0f, "Exit", m_font),
-      m_creatorButton(600.0f, 220.0f, 400.0f, 50.0f, "Map Creator", m_font) {
+      m_state(GameState::MENU) {
     
     m_window.setFramerateLimit(Constants::FRAME_RATE);
 
@@ -16,6 +13,8 @@ Game::Game()
         std::cerr << "assets/fonts/arial.ttf" << std::endl;
         exit(-1);
     }
+    m_exitButton.emplace(600.0f, 100.0f, 400.0f, 50.0f, "Exit", m_font);
+    m_creatorButton.emplace(600.0f, 220.0f, 400.0f, 50.0f, "Map Creator", m_font);
     m_renderer = Renderer();
 
     MapManager::ensureAssetsDirectory();
@@ -74,10 +73,10 @@ void Game::render() {
 
     switch(m_state) {
         case GameState::MENU:
-            m_renderer.renderUI(m_window, m_mapButtons, m_exitButton, m_creatorButton);
+            m_renderer.renderUI(m_window, m_mapButtons, m_exitButton.value(), m_creatorButton.value());
             break;
         case GameState::GAME:
-            m_renderer.renderScene(m_window, m_player, m_worldMap, m_wall_Texture);
+            m_renderer.renderScene(m_window, m_player, m_worldMap);
             break;
         case GameState::CREATOR:
             m_renderer.renderCreator(m_window, m_worldMap);
@@ -100,10 +99,10 @@ void Game::handleMenuInput(const sf::Event& event) {
         } 
     }
 
-    if (m_exitButton.isClicked(mousePos)) {
+    if (m_exitButton->isClicked(mousePos)) {
         m_window.close();
     }
-    if (m_creatorButton.isClicked(mousePos)) {
+    if (m_creatorButton->isClicked(mousePos)) {
         m_worldMap = Map(); // Reset map to avoid conflicts with creator
         m_state = GameState::CREATOR;
     }
@@ -133,8 +132,8 @@ void Game::handleCreatorInput(const sf::Event& event) {
 void Game::updateMenu() {
     sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
     for (auto& button : m_mapButtons) button.update(mousePos);
-    m_exitButton.update(mousePos);
-    m_creatorButton.update(mousePos);
+    m_exitButton->update(mousePos);
+    m_creatorButton->update(mousePos);
 }
 
 void Game::updateCreator() {

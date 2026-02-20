@@ -5,5 +5,5 @@
 
 class Raycaster {
     public:
-    void draw(sf::RenderWindow &window, const Map &map, const Player &player, const sf::Texture& texture);
+    void draw(sf::RenderWindow &window, const Map &map, const Player &player);
 };

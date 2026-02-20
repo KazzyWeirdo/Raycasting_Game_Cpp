@@ -62,6 +62,7 @@ public:
         data.fogIntensity = fogIntensity;
         return data;
     }
+    sf::RenderStates getTextureWall() const { return &wallTexture; }
 private:
     std::string levelName;
     int mapWidth;
@@ -75,6 +76,7 @@ private:
     sf::Color skyColor;
     sf::Color floorColor;
     sf::Color wallColor;
+    sf::Texture wallTexture;
     float fogIntensity;
 
     void calculateOffset();

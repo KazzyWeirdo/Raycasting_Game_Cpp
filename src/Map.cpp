@@ -17,6 +17,7 @@ Map::Map() {
     floorColor = sf::Color(Constants::DEFAULT_FLOOR_R, Constants::DEFAULT_FLOOR_G, Constants::DEFAULT_FLOOR_B);
     wallColor = sf::Color(Constants::DEFAULT_WALL_R, Constants::DEFAULT_WALL_G, Constants::DEFAULT_WALL_B);
     fogIntensity = Constants::DEFAULT_FOG_DISTANCE;
+    wallTexture = sf::Texture("assets/textures/Brick_Wall.png");
     drawLimits();
     calculateOffset();
 }

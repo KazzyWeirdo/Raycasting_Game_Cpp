@@ -44,7 +44,6 @@ class Game {
         sf::RenderWindow m_window;
         sf::Font m_font;
         sf::Clock m_clock;
-        sf::Texture m_wall_Texture;
         GameState m_state;
 
         Map m_worldMap;
@@ -52,8 +51,8 @@ class Game {
         LevelCreator m_levelCreator;
 
         std::vector<Button> m_mapButtons;
-        Button m_exitButton;
-        Button m_creatorButton;
+        std::optional<Button> m_exitButton;
+        std::optional<Button> m_creatorButton;
 
         Renderer m_renderer;
 };

@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <iostream>
 
-void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &player, const sf::Texture &texture) {
+void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &player) {
 
     sf::VertexArray walls(sf::PrimitiveType::Lines);
 
@@ -150,14 +150,6 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         
     }
 
-        /*
-            Testing how the texture looks in the game,
-            this should be change for better scability
-            and for respecting OOP programming.
-        */
 
-        sf::RenderStates states;
-        states.texture = &texture;
-
-     window.draw(walls, states);
+     window.draw(walls, map.getTextureWall());
 }

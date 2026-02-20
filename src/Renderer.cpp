@@ -3,9 +3,9 @@
 
 Renderer::Renderer() {}
 
-void Renderer::renderScene(sf::RenderWindow& window, const Player& player, const Map& map, const sf::Texture& texture) {
+void Renderer::renderScene(sf::RenderWindow& window, const Player& player, const Map& map) {
     drawSkyAndFloor(window, map);
-    m_raycaster.draw(window, map, player, texture);
+    m_raycaster.draw(window, map, player);
 }
 
 void Renderer::renderUI(sf::RenderWindow& window, const std::vector<Button>& buttons, 

@@ -5,6 +5,7 @@
 
 class Button {
 public:
+
     Button(float x, float y, float width, float height, 
               const std::string& text, const sf::Font& font);
 
