@@ -16,9 +16,6 @@ Game::Game()
         std::cerr << "assets/fonts/arial.ttf" << std::endl;
         exit(-1);
     }
-
-    m_exitButton = Button(600.0f, 100.0f, 400.0f, 50.0f, "Exit", m_font);
-    m_creatorButton = Button(600.0f, 220.0f, 400.0f, 50.0f, "Map Creator", m_font);
     m_renderer = Renderer();
 
     MapManager::ensureAssetsDirectory();
@@ -28,9 +25,10 @@ Game::Game()
 
 void Game::run() {
     while (m_window.isOpen()) {
-        float dt = m_clock.restart().asSeconds() * 60.0f;
+        sf::Time frameTime = m_clock.restart();
+        float dt = frameTime.asSeconds() * 60.0f;
         processEvents();
-        update(dt);
+        update(dt, frameTime);
         render();
     }
 }
@@ -56,8 +54,8 @@ void Game::processEvents() {
     }
 }
 
-void Game::update(float dt) {
-    ImGui::SFML::Update(m_window, m_clock.restart());
+void Game::update(float dt, sf::Time frameTime) {
+    ImGui::SFML::Update(m_window, frameTime);
     switch(m_state) {
         case GameState::MENU:
             updateMenu();

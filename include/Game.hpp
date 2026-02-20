@@ -23,7 +23,7 @@ class Game {
 
     private:
         void processEvents();
-        void update(float dt);
+        void update(float dt, sf::Time frameTime);
         void render();
 
         void handleMenuInput(const sf::Event& event);
