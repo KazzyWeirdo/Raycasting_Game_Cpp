@@ -127,9 +127,10 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         float wallFactor = 1.0f - fog;
 
         sf::Color finalColor;
-        finalColor.r = (std::uint8_t)(color.r * wallFactor + map.getSkyColor().r * fog);
-        finalColor.g = (std::uint8_t)(color.g * wallFactor + map.getSkyColor().g * fog);
-        finalColor.b = (std::uint8_t)(color.b * wallFactor + map.getSkyColor().b * fog);
+        finalColor.r = (std::uint8_t)(color.r);
+        finalColor.g = (std::uint8_t)(color.g);
+        finalColor.b = (std::uint8_t)(color.b);
+        finalColor.a = 255 * wallFactor;
 
         /*
             In order to not get a weird visual effect where the textures
