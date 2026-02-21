@@ -126,11 +126,7 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
 
         float wallFactor = 1.0f - fog;
 
-        sf::Color finalColor;
-        finalColor.r = (std::uint8_t)(color.r);
-        finalColor.g = (std::uint8_t)(color.g);
-        finalColor.b = (std::uint8_t)(color.b);
-        finalColor.a = 255 * wallFactor;
+        color.a = 255 * wallFactor;
 
         /*
             In order to not get a weird visual effect where the textures
@@ -146,8 +142,8 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         float step = 1.0f * texSize / lineHeight;
         float texPos = (drawStart - Constants::WINDOW_HEIGHT / 2 + lineHeight / 2) * step;
 
-        walls.append(sf::Vertex{sf::Vector2f(ray, drawStart), finalColor, sf::Vector2f(texX, texPos)});
-        walls.append(sf::Vertex{sf::Vector2f(ray, drawEnd), finalColor, sf::Vector2f(texX, texPos + (drawEnd - drawStart) * step)});
+        walls.append(sf::Vertex{sf::Vector2f(ray, drawStart), color, sf::Vector2f(texX, texPos)});
+        walls.append(sf::Vertex{sf::Vector2f(ray, drawEnd), color, sf::Vector2f(texX, texPos + (drawEnd - drawStart) * step)});
         
     }
 
