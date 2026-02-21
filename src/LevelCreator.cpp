@@ -138,7 +138,7 @@ void LevelCreator::handleInput(sf::RenderWindow& window, Map& map, Player& playe
         int mapY = localY / map.getTileSizeFor2DMap();
 
         // Validate boundaries
-        if (mapX >= 0 && mapX < map.getWidth() && mapY >= 0 && mapY < map.getHeight()) {
+        if (mapX >= 1 && mapX < map.getWidth() - 1 && mapY >= 1 && mapY < map.getHeight() - 1) {
             
             if(m_placingPlayer) {
                 if (map.getTile(mapX, mapY) == 1) return; // Can't place player on a wall
