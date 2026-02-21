@@ -53,7 +53,7 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
 
         // Perform DDA: jump to next map square, either in x-direction or y-direction, until we hit a wall
 
-        int maxDepth = 50;
+        int maxDepth = Constants::MAXIMUM_DEPTH;
         while (!hit && maxDepth-- > 0) {
             if (sideDistX < sideDistY) {
                 sideDistX += deltaDistX;

@@ -55,7 +55,8 @@ namespace Constants {
     constexpr std::uint8_t COLOR_TEXT_BUTTON_B = 255;
 
     // --- Raycasting Configuration ---
-    constexpr int FOV = 60;                         // Field of View in degreesç
+    constexpr int FOV = 60;                         // Field of View in degrees
+    constexpr int MAXIMUM_DEPTH = 50;               // Maximum jumps in DDA
 
     // -- Menu Configuration ---
     constexpr sf::Color MENU_BACKGROUND_COLOR = sf::Color(30, 30, 30);
