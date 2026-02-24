@@ -104,7 +104,7 @@ void Raycaster::draw(sf::RenderWindow &window, const Map &map, const Player &pla
         else           wallX = (player.getPosition().x / map.getTileSize()) + (perpWallDist * rayDirX);
         wallX -= floor((wallX));
 
-        int texSize = 64; // Supposed size of the texture, it's a test variable we simulate 64x64 size.
+        int texSize = Constants::TEXTURE_SIZE; // Supposed size of the texture, it's a test variable we simulate 64x64 size.
         int texX = static_cast<int>(wallX * static_cast<float>(texSize));
 
         if (side == 0 && rayDirX > 0) texX = texSize - texX - 1;

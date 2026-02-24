@@ -19,6 +19,7 @@ namespace Constants {
     constexpr int DEFAULT_MAP_WIDTH = 12;
     constexpr int DEFAULT_MAP_HEIGHT = 12;
     constexpr float TILE_SIZE = 64.0f;
+    constexpr int TEXTURE_SIZE = 64;
 
     constexpr float DEFAULT_FOG_DISTANCE = 5.5f;
     constexpr std::uint8_t DEFAULT_FOG_R = 150;
