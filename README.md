@@ -28,7 +28,7 @@ A *Wolfenstein 3D* style Raycasting engine built from scratch using modern C++. 
 | Key | Action |
 | :--- | :--- |
 | **W / S** | Move |
-| **Arrows A / D** | Rotate Camera |
+| **A / D** | Rotate Camera |
 | **ESC** | Go Back to Menu |
 
 ### Creator Mode
